@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+group = 'pro.gravit.launchermodules'
+version = '1.0-SNAPSHOT'
+def mainClassName = "pro.gravit.launcher.launchermodules.PrestarterModule"
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation("org.apache.logging.log4j:log4j-api:2.20.0")
+    implementation "pro.gravit.launcher:launcher-core:5.4.3-SNAPSHOT"
+    implementation "pro.gravit.launcher:launcher-ws-api:5.4.3-SNAPSHOT"
+    implementation "pro.gravit.launcher:launchserver-api:5.4.3-SNAPSHOT"
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+jar {
+    manifest.attributes("Module-Main-Class": mainClassName,
+            "Module-Config-Class": "pro.gravit.launcher.client.gui.config.GuiModuleConfig",
+            "Module-Config-Name": "JavaRuntime")
+    jar.archiveFileName = "Prestarter_module.jar"
+}
+
+test {
+    useJUnitPlatform()
+}
