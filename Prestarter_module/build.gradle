@@ -22,8 +22,8 @@ dependencies {
 
 jar {
     manifest.attributes("Module-Main-Class": mainClassName,
-            "Module-Config-Class": "pro.gravit.launcher.client.gui.config.GuiModuleConfig",
-            "Module-Config-Name": "JavaRuntime")
+            "Module-Config-Class": "pro.gravit.launcher.launchermodules.prestarter.Config",
+            "Module-Config-Name": "Prestarter")
     jar.archiveFileName = "Prestarter_module.jar"
 }
 
