@@ -4,7 +4,7 @@ plugins {
 
 group = 'pro.gravit.launchermodules'
 version = '1.0-SNAPSHOT'
-def mainClassName = "pro.gravit.launcher.launchermodules.PrestarterModule"
+def mainClassName = "pro.gravit.launcher.launchermodules.prestarter.PrestarterModule"
 
 repositories {
     mavenCentral()
