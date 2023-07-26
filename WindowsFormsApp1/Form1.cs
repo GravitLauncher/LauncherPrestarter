@@ -12,9 +12,6 @@ namespace WindowsFormsApp1
 {
     public partial class PreStartedForm : Form, IProgress<float>, IStatusPeporter
     {
-        public static string VERSION = "0.1.0";
-        public static string PROJECT = "Minecraft";
-        public static string LAUNCHER_URL = "http://localhost:9274/Launcher.jar";
         private Prestarter prestarter;
 
         private bool dragging = false;
@@ -27,8 +24,8 @@ namespace WindowsFormsApp1
 
         private void PreStartedForm_Shown(object sender, EventArgs e)
         {
-            Console.WriteLine("GravitLauncher Prestartup v" + VERSION + "for project" + PROJECT);
-            prestarter = new Prestarter(PROJECT, this, LAUNCHER_URL, this);
+            Console.WriteLine("GravitLauncher Prestartup v" + Config.VERSION + "for project" + Config.PROJECT);
+            prestarter = new Prestarter(this, this);
             prestarter.run();
         }
 

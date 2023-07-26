@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -21,12 +22,39 @@ namespace WindowsFormsApp1
         private IStatusPeporter reporter;
         private string launcherUrl;
 
-        public Prestarter(string projectName, IProgress<float> progress, string launcherUrl, IStatusPeporter reporter)
+        public Prestarter(IProgress<float> progress, IStatusPeporter reporter)
         {
-            this.projectName = projectName;
+            this.projectName = Config.PROJECT;
             this.progress = progress;
-            this.launcherUrl = launcherUrl;
+            this.launcherUrl = Config.LAUNCHER_URL;
             this.reporter = reporter;
+        }
+
+        public JavaStatus checkDate(string path)
+        {
+            try
+            {
+                if(!File.Exists(path))
+                {
+                    return JavaStatus.NOT_INSTALLED;
+                }
+                string text = File.ReadAllText(path);
+                DateTime parsed = DateTime.Parse(text);
+                DateTime now = DateTime.Now;
+                if(parsed.AddDays(30) < now)
+                {
+                    return JavaStatus.NEED_UPDATE;
+                }
+                return JavaStatus.OK;
+            } catch(Exception e)
+            {
+                return JavaStatus.NOT_INSTALLED;
+            }
+        }
+
+        public enum JavaStatus
+        {
+            NOT_INSTALLED, NEED_UPDATE, OK
         }
 
         public async void run()
@@ -34,9 +62,46 @@ namespace WindowsFormsApp1
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string basePath = Environment.GetEnvironmentVariable("APPDATA") + "\\" + projectName;
             Directory.CreateDirectory(basePath);
-            string javaPath = basePath + "\\" + "jre-full";
-            if(!File.Exists(javaPath) && !File.Exists(javaPath+"\\complete-flag"))
+            string javaPath = null;
+            if (Config.USAGE_GLOBAL_JAVA)
             {
+                string globalBasePath = Environment.GetEnvironmentVariable("APPDATA") + "\\SharedJava";
+                Directory.CreateDirectory(globalBasePath);
+                javaPath = globalBasePath + "\\" + Config.PREFIX;
+            } else
+            {
+                javaPath = basePath + "\\" + "jre-full";
+            }
+            string dateFilePath = javaPath + "\\" + "date-updated";
+            var javaStatus = checkDate(dateFilePath);
+            if(javaStatus != JavaStatus.OK)
+            {
+                if(Config.ENABLE_DOWNLOAD_QUESTION)
+                {
+                    if(javaStatus == JavaStatus.NEED_UPDATE)
+                    {
+                        var dialog = MessageBox.Show(string.Format("Доступно обновление Java. Обновить?", projectName), "Prestarter", MessageBoxButtons.YesNoCancel);
+                        if (dialog == DialogResult.No)
+                        {
+                            goto launcher_start;
+                        } else if(dialog == DialogResult.Yes)
+                        {
+                            // Yes
+                        } else
+                        {
+                            Application.Exit();
+                            return;
+                        }
+                    } else
+                    {
+                        var dialog = MessageBox.Show(string.Format("Для запуска лаунчера {0} необходимо программное обеспечение Java. Скачать Java от BellSoft?", projectName), "Prestarter", MessageBoxButtons.OKCancel);
+                        if(dialog != DialogResult.OK)
+                        {
+                            Application.Exit();
+                            return;
+                        }
+                    }
+                }
                 var bitness = System.Environment.Is64BitOperatingSystem ? "64" : "32";
                 reporter.updateStatus("Запрос к BellSoft API");
                 reporter.requestWaitProgressbar();
@@ -64,6 +129,20 @@ namespace WindowsFormsApp1
                         await sharedClient.DownloadAsync(downloadUrl, file, progress);
                     }
                     reporter.requestWaitProgressbar();
+                    if(File.Exists(javaPath))
+                    {
+                        reporter.updateStatus("Удаление старой Java");
+                        System.IO.DirectoryInfo di = new DirectoryInfo(javaPath);
+
+                        foreach (FileInfo file in di.GetFiles())
+                        {
+                            file.Delete();
+                        }
+                        foreach (DirectoryInfo dir in di.GetDirectories())
+                        {
+                            dir.Delete(true);
+                        }
+                    }
                     reporter.updateStatus("Распаковка");
                     Directory.CreateDirectory(javaPath);
                     using (ZipArchive archive = ZipFile.OpenRead(zipPath))
@@ -82,14 +161,15 @@ namespace WindowsFormsApp1
                                 Directory.CreateDirectory(path);
                             } else
                             {
-                                entry.ExtractToFile(path);
+                                entry.ExtractToFile(path, overwrite: true);
                             }
                         }
                     }
                     File.Delete(zipPath);
-                    File.WriteAllBytes(javaPath + "\\complete-flag", new byte[0]);
+                    File.WriteAllText(dateFilePath, DateTime.Now.ToString());
                 }
             }
+            launcher_start:
             reporter.updateStatus("Поиск лаунчера");
             string launcherPath = basePath + "\\Launcher.jar";
             if(launcherUrl == null)
