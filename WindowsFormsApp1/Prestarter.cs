@@ -65,9 +65,11 @@ namespace WindowsFormsApp1
             string javaPath = null;
             if (Config.USAGE_GLOBAL_JAVA)
             {
-                string globalBasePath = Environment.GetEnvironmentVariable("APPDATA") + "\\SharedJava";
+                string globalBasePath = Environment.GetEnvironmentVariable("APPDATA") + "\\GravitLauncherStore";
                 Directory.CreateDirectory(globalBasePath);
-                javaPath = globalBasePath + "\\" + Config.PREFIX;
+                string globalJavaPath = globalBasePath + "\\Java";
+                Directory.CreateDirectory(globalJavaPath);
+                javaPath = globalJavaPath + "\\" + Config.PREFIX;
             } else
             {
                 javaPath = basePath + "\\" + "jre-full";
