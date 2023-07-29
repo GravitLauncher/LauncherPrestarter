@@ -24,7 +24,7 @@ namespace WindowsFormsApp1
 
         private void PreStartedForm_Shown(object sender, EventArgs e)
         {
-            Console.WriteLine("GravitLauncher Prestarter v" + Config.VERSION + " for project" + Config.PROJECT);
+            Console.WriteLine("GravitLauncher Prestarter v" + Config.VERSION + " for project " + Config.PROJECT);
             prestarter = new Prestarter(this, this);
             prestarter.run();
         }
