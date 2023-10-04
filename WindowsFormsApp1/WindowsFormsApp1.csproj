@@ -48,7 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OpenJFXDownloader.cs" />
+    <Compile Include="AdoptiumJavaDownloader.cs" />
+    <Compile Include="BellsoftJavaDownloader.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="DownloadUtils.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -56,6 +60,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="HttpClientExtensions.cs" />
+    <Compile Include="IPartDownloader.cs" />
     <Compile Include="IStatusPeporter.cs" />
     <Compile Include="Prestarter.cs" />
     <Compile Include="Program.cs" />
