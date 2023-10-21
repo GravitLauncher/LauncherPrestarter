@@ -18,9 +18,7 @@ namespace WindowsFormsApp1
             string name;
             if(System.Environment.Is64BitOperatingSystem)
             {
-                // See https://adoptium.net/blog/2023/09/temurin21-delay/
-                // After release 21 change ea to ga
-                url = "https://api.adoptium.net/v3/binary/latest/21/ea/windows/x64/jre/hotspot/normal/eclipse?project=jdk";
+                url = "https://api.adoptium.net/v3/binary/latest/21/ga/windows/x64/jre/hotspot/normal/eclipse?project=jdk";
                 name = X86_64_NAME;
             } else
             {
