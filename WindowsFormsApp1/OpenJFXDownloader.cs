@@ -17,7 +17,7 @@ namespace WindowsFormsApp1
             string name;
             if(System.Environment.Is64BitOperatingSystem)
             {
-                url = "https://download2.gluonhq.com/openjfx/21.0.1/openjfx-21.0.1_linux-x64_bin-sdk.zip";
+                url = "https://download2.gluonhq.com/openjfx/21.0.1/openjfx-21.0.1_windows-x64_bin-sdk.zip";
                 name = X86_64_NAME;
             } else
             {
