@@ -9,5 +9,6 @@
         public static bool USAGE_GLOBAL_JAVA = true;
         public static IPartDownloader javaDownloader = new AdoptiumJavaDownloader();
         public static IPartDownloader openjfxDownloader = new OpenJFXDownloader();
+        public static string[] args; // Don't touch
     }
 }
