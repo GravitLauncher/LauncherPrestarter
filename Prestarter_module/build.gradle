@@ -7,6 +7,9 @@ version = '1.0-SNAPSHOT'
 def mainClassName = "pro.gravit.launcher.launchermodules.prestarter.PrestarterModule"
 
 repositories {
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
     mavenCentral()
     mavenLocal()
 }
