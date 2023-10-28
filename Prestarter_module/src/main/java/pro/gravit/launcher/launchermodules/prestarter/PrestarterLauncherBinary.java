@@ -6,7 +6,7 @@ import pro.gravit.launchserver.binary.LauncherBinary;
 public class PrestarterLauncherBinary extends LauncherBinary {
     private final PrestarterModule module;
     protected PrestarterLauncherBinary(LaunchServer server, PrestarterModule module) {
-        super(server, LauncherBinary.resolve(server, ".exe"), "Launcher-%s-%d.exe");
+        super(server, LauncherBinary.resolve(server, ".exe"), "Launcher-%s.exe");
         this.module = module;
     }
 

@@ -48,9 +48,4 @@ public class PrestarterTask implements LauncherBuildTask, BuildExeMainTask {
         }
         return outputPath;
     }
-
-    @Override
-    public boolean allowDelete() {
-        return true;
-    }
 }
