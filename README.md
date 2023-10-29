@@ -1,8 +1,8 @@
 # LauncherPrestarter
 Установщик Java и GravitLauncher для вашего проекта, написанный на .NET
 ### Совместимость
-Установщик требует .NET 4.5.1 и выше, который предустановлен на Windows 8.1/10/11. Установить эту версию можно на Windows 7 и выше. Многие сборки Windows уже содержат в себе .NET Framework подходящей версии
-Prestarter_module работает только с GrtavitLauncher 5.5.0+
+Установщик требует .NET 4.5.1 и выше, который предустановлен на Windows 8.1/10/11. Установить эту версию можно на Windows 7 и выше. Многие сборки Windows уже содержат в себе .NET Framework подходящей версии  
+Prestarter_module работает только с GravitLauncher 5.5.0+
 ### Сборка на Windows
 - Установите Visual Studio 2022 и откройте проект
 - Откройте `Form1.cs`
