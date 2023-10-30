@@ -1,4 +1,6 @@
-﻿namespace Prestarter
+﻿using Prestarter.Downloaders;
+
+namespace Prestarter
 {
     internal class Config
     {
@@ -10,7 +12,6 @@
         public static bool DownloadQuestionEnabled = true;
         
         public static bool UseGlobalJava = true;
-        public static IRuntimeDownloader JavaDownloader = new AdoptiumJavaDownloader();
-        public static IRuntimeDownloader OpenJFXDownloader = new OpenJFXDownloader();
+        public static IRuntimeDownloader JavaDownloader = new CompositeDownloader(new AdoptiumJavaDownloader(), new OpenJFXDownloader());
     }
 }

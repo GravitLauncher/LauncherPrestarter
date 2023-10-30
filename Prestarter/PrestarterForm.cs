@@ -15,6 +15,8 @@ namespace Prestarter
         public PrestarterForm()
         {
             InitializeComponent();
+            WindowState = FormWindowState.Minimized;
+            ShowInTaskbar = false;
         }
 
         private void PreStartedForm_MouseUp(object sender, MouseEventArgs e)
@@ -41,7 +43,7 @@ namespace Prestarter
 
         private void buttonExit_Click(object sender, EventArgs e)
         {
-            Close();
+            Environment.Exit(1);
         }
 
         public void SetProgressBarState(ProgressBarState state)
@@ -72,6 +74,15 @@ namespace Prestarter
             Invoke(new Action(() => mainProgressBar.Value = (int) Math.Round(value * 100)));
         }
 
+        public void ShowForm()
+        {
+            Invoke(new Action(() =>
+            {
+                WindowState = FormWindowState.Normal;
+                ShowInTaskbar = true;
+            }));
+        }
+
         private void PrestarterForm_Load(object sender, EventArgs args)
         {
             new Thread(() =>
@@ -86,7 +97,7 @@ namespace Prestarter
                     MessageBox.Show(e.Message, "GravitLauncher Prestarter", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                Application.Exit();
+                Environment.Exit(0);
             }).Start();
         }
     }

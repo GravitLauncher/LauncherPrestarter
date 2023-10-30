@@ -5,7 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
 
-namespace Prestarter
+namespace Prestarter.Downloaders
 {
     internal class BellsoftJavaDownloader : IRuntimeDownloader
     {
@@ -34,8 +34,9 @@ namespace Prestarter
                 throw new Exception("Произошла ошибка во время обработки ответа");
             }
 
-            var zipPath = $"{javaPath}.zip";
+            var zipPath = Path.Combine(javaPath, "java.zip");
             reporter.SetStatus("Скачивание Liberica Full JRE");
+            reporter.SetProgress(0);
             reporter.SetProgressBarState(ProgressBarState.Progress);
             using (var file = new FileStream(zipPath, FileMode.Create, FileAccess.Write, FileShare.None))
             {

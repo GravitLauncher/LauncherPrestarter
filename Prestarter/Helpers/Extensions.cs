@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Prestarter
+namespace Prestarter.Helpers
 {
     public static class Extensions
     {

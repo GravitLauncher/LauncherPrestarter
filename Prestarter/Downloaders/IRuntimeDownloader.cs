@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Prestarter
+namespace Prestarter.Downloaders
 {
     internal interface IRuntimeDownloader
     {

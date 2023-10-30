@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Prestarter.Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Prestarter
+namespace Prestarter.Downloaders
 {
     internal class OpenJFXDownloader : IRuntimeDownloader
     {
@@ -19,8 +20,9 @@ namespace Prestarter
         {
             var url = Environment.Is64BitOperatingSystem ? x64Url : x86Url;
             var name = GetName();
-            string zipPath = $"{javaPath}-openjfx.zip";
+            string zipPath = Path.Combine(javaPath, "openjfx.zip");
             reporter.SetStatus($"Скачивание {name}");
+            reporter.SetProgress(0);
             reporter.SetProgressBarState(ProgressBarState.Progress);
             using (var file = new FileStream(zipPath, FileMode.Create, FileAccess.Write, FileShare.None))
             {

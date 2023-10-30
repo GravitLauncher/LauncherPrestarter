@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prestarter.Helpers;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -77,11 +78,11 @@ namespace Prestarter
                     var dialog = MessageBox.Show("Доступно обновление Java. Обновить?", "Prestarter", MessageBoxButtons.YesNoCancel);
                     if (dialog == DialogResult.No)
                     {
-                        return javaPath;
-                    }
-                    else if (dialog == DialogResult.No)
-                    {
                         return null;
+                    }
+                    else if (dialog == DialogResult.Yes)
+                    {
+                        return javaPath;
                     }
                 }
                 else
@@ -95,8 +96,8 @@ namespace Prestarter
                 }
             }
 
+            reporter.ShowForm();
             Config.JavaDownloader.Download(javaPath, reporter);
-            Config.OpenJFXDownloader.Download(javaPath, reporter);
 
             File.WriteAllText(dateFilePath, DateTime.Now.ToString());
             return javaPath;
@@ -112,6 +113,10 @@ namespace Prestarter
             Directory.CreateDirectory(basePath);
 
             var javaPath = VerifyAndDownloadJava(basePath);
+            if (javaPath == null)
+            {
+                return;
+            }
 
             reporter.SetStatus("Поиск лаунчера");
             var launcherPath = Path.Combine(basePath, "Launcher.jar");
@@ -122,7 +127,9 @@ namespace Prestarter
             }
             else if (!File.Exists(launcherPath))
             {
+                reporter.ShowForm();
                 reporter.SetStatus("Скачивание лаунчера");
+                reporter.SetProgress(0);
                 reporter.SetProgressBarState(ProgressBarState.Progress);
                 using (var file = new FileStream(launcherPath, FileMode.Create, FileAccess.Write, FileShare.None))
                 {

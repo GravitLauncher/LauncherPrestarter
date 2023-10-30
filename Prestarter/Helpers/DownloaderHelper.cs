@@ -7,7 +7,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Prestarter
+namespace Prestarter.Helpers
 {
     internal class DownloaderHelper
     {

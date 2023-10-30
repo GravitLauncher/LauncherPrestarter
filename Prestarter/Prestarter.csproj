@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Downloaders\CompositeDownloader.cs" />
     <Compile Include="Downloaders\OpenJFXDownloader.cs" />
     <Compile Include="Downloaders\AdoptiumJavaDownloader.cs" />
     <Compile Include="Downloaders\BellsoftJavaDownloader.cs" />
