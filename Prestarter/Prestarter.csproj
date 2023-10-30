@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{18AAD5E5-91E4-49CE-9ABA-5481D010D83B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WindowsFormsApp1</RootNamespace>
-    <AssemblyName>WindowsFormsApp1</AssemblyName>
+    <RootNamespace>Prestarter</RootNamespace>
+    <AssemblyName>Prestarter</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -48,26 +48,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OpenJFXDownloader.cs" />
-    <Compile Include="AdoptiumJavaDownloader.cs" />
-    <Compile Include="BellsoftJavaDownloader.cs" />
+    <Compile Include="Downloaders\OpenJFXDownloader.cs" />
+    <Compile Include="Downloaders\AdoptiumJavaDownloader.cs" />
+    <Compile Include="Downloaders\BellsoftJavaDownloader.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="DownloadUtils.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Helpers\DownloaderHelper.cs" />
+    <Compile Include="Helpers\JsonParser.cs" />
+    <Compile Include="PrestarterForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="PrestarterForm.Designer.cs">
+      <DependentUpon>PrestarterForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="HttpClientExtensions.cs" />
-    <Compile Include="IPartDownloader.cs" />
-    <Compile Include="IStatusPeporter.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Downloaders\IRuntimeDownloader.cs" />
     <Compile Include="Prestarter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StreamExtensions.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="PrestarterForm.resx">
+      <DependentUpon>PrestarterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -77,6 +76,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

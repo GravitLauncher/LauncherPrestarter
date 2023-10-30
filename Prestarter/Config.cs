@@ -1,0 +1,16 @@
+﻿namespace Prestarter
+{
+    internal class Config
+    {
+        public static string Project = "Minecraft";
+        public static string Version = "0.1.0";
+
+        public static string LauncherDownloadUrl = "https://demo.gravit-support.ru/updates/Launcher.jar";
+        
+        public static bool DownloadQuestionEnabled = true;
+        
+        public static bool UseGlobalJava = true;
+        public static IRuntimeDownloader JavaDownloader = new AdoptiumJavaDownloader();
+        public static IRuntimeDownloader OpenJFXDownloader = new OpenJFXDownloader();
+    }
+}
