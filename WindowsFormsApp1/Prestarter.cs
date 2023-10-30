@@ -132,14 +132,9 @@ namespace WindowsFormsApp1
             Process process = new Process();
             // Configure the process using the StartInfo properties.
             process.StartInfo.FileName = javaPath + "\\bin\\java.exe";
-            string args = "";
-            foreach(var e in Config.args)
-            {
-                args += " \"";
-                args += e.ToString();
-                args += "\"";
-            }
-            process.StartInfo.Arguments = "-Dlauncher.noJavaCheck=true -jar \"" + launcherPath + "\"" + args;
+            Process currentProcess = Process.GetCurrentProcess();
+            string args = currentProcess.StartInfo.Arguments;
+            process.StartInfo.Arguments = "-Dlauncher.noJavaCheck=true -jar \"" + launcherPath + "\" " + args;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.CreateNoWindow = true;
             process.Start();

@@ -9,9 +9,8 @@ namespace WindowsFormsApp1
         /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
-        static void Main(string[] args)
+        static void Main()
         {
-            Config.args = args;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new PreStartedForm());
