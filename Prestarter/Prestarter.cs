@@ -139,12 +139,19 @@ namespace Prestarter
             }
 
             reporter.SetStatus("Запуск");
+            string args = "";
+            foreach (var e in Program.Arguments)
+            {
+                args += " \"";
+                args += e.ToString();
+                args += "\"";
+            }
             var process = new Process
             {
                 StartInfo = new ProcessStartInfo()
                 {
                     FileName = Path.Combine(javaPath, "bin", "java.exe"),
-                    Arguments = $"-Dlauncher.noJavaCheck=true -jar \"{launcherPath}\" {Process.GetCurrentProcess().StartInfo.Arguments}",
+                    Arguments = $"-Dlauncher.noJavaCheck=true -jar \"{launcherPath}\" {args}",
                     UseShellExecute = false,
                     CreateNoWindow = true
                 }

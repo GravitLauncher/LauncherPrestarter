@@ -1,6 +1,9 @@
-﻿using System;
+﻿using System.Windows.Forms;
+
+using System;
 using System.Threading;
 using System.Windows.Forms;
+using System.Security.Policy;
 
 namespace Prestarter
 {
@@ -20,8 +23,10 @@ namespace Prestarter
 
     internal static class Program
     {
-        private static void Main()
+        public static string[] Arguments;
+        private static void Main(string[] args)
         {
+            Arguments = args;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new PrestarterForm());
