@@ -78,11 +78,11 @@ namespace Prestarter
                     var dialog = MessageBox.Show("Доступно обновление Java. Обновить?", "Prestarter", MessageBoxButtons.YesNoCancel);
                     if (dialog == DialogResult.No)
                     {
-                        return null;
-                    }
-                    else if (dialog == DialogResult.Yes)
-                    {
                         return javaPath;
+                    }
+                    else if (dialog == DialogResult.Cancel)
+                    {
+                        return null;
                     }
                 }
                 else
@@ -93,6 +93,13 @@ namespace Prestarter
                     {
                         return null;
                     }
+                }
+            }
+            else
+            {
+                if(javaStatus == JavaStatus.Ok)
+                {
+                    return javaPath;
                 }
             }
 
