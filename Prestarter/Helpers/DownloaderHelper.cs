@@ -44,10 +44,5 @@ namespace Prestarter.Helpers
                 }
             }
         }
-
-        public static void DownloadFileAndCheckHashSum()
-        {
-
-        }
     }
 }
