@@ -75,17 +75,23 @@ namespace Prestarter.Helpers
             }
         }
 
-        public static void DownloadWithHash(this HttpClient client, string requestUri, string hashUri, HashAlgorithm hashAlgorithm,
+        public static void DownloadWithHashUrl(this HttpClient client, string requestUri, string hashUri, HashAlgorithm hashAlgorithm,
             Stream destination, Action<float> progress)
         {
             var hash = client.GetStringAsync(hashUri).Result;
+            var originalHash = hash.Trim().Split(' ')[0].Trim().ToLower();
+            client.DownloadWithHash(requestUri, originalHash, hashAlgorithm, destination, progress);
+        }
+
+        public static void DownloadWithHash(this HttpClient client, string requestUri, string hash, HashAlgorithm hashAlgorithm,
+            Stream destination, Action<float> progress)
+        {
             var hashingProxyStream = new HashProxyStream(destination, hashAlgorithm);
             client.Download(requestUri, destination, progress);
             var downloadedHash = string.Join("", hashingProxyStream.GetHash().Select(item => item.ToString("x2")));
-            var originalHash = hash.Trim().Split(' ')[0].Trim().ToLower();
-            if (downloadedHash == originalHash)
+            if (downloadedHash == hash)
             {
-                throw new Exception($"Хеш-сумма не совпадает: {downloadedHash} != {originalHash}");
+                throw new Exception($"Хеш-сумма не совпадает: {downloadedHash} != {hash}");
             }
         }
 
