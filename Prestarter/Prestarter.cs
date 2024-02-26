@@ -95,12 +95,9 @@ namespace Prestarter
                     }
                 }
             }
-            else
+            else if (javaStatus == JavaStatus.Ok)
             {
-                if(javaStatus == JavaStatus.Ok)
-                {
-                    return javaPath;
-                }
+                return javaPath;
             }
 
             reporter.ShowForm();

@@ -1,11 +1,58 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Prestarter.Helpers
 {
+    internal class HashProxyStream : Stream
+    {
+        private readonly Stream baseStream;
+        private readonly HashAlgorithm hashAlgorithm;
+
+        public override bool CanRead => false;
+
+        public override bool CanSeek => false;
+
+        public override bool CanWrite => true;
+
+        public override long Length => throw new InvalidOperationException();
+
+        public override long Position { get => throw new InvalidOperationException(); set => throw new InvalidOperationException(); }
+
+        public HashProxyStream(Stream baseStream, HashAlgorithm hashAlgorithm) 
+        {
+            this.baseStream = baseStream;
+            this.hashAlgorithm = hashAlgorithm;
+        }
+
+        public override void Flush()
+        {
+            baseStream.Flush();
+        }
+
+        public override int Read(byte[] buffer, int offset, int count) => throw new InvalidOperationException();
+
+        public override long Seek(long offset, SeekOrigin origin) => throw new InvalidOperationException();
+
+        public override void SetLength(long value) => throw new InvalidOperationException();
+
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+            hashAlgorithm.TransformBlock(buffer, offset, count, null, 0);
+            baseStream.Write(buffer, offset, count);
+        }
+
+        public byte[] GetHash()
+        {
+            hashAlgorithm.TransformFinalBlock(new byte[0], 0, 0);
+            return hashAlgorithm.Hash;
+        }
+    }
+
     public static class Extensions
     {
         public static void Download(this HttpClient client, string requestUri, Stream destination, Action<float> progress)
@@ -27,6 +74,27 @@ namespace Prestarter.Helpers
                 }
             }
         }
+
+        public static void DownloadWithHashUrl(this HttpClient client, string requestUri, string hashUri, HashAlgorithm hashAlgorithm,
+            Stream destination, Action<float> progress)
+        {
+            var hash = client.GetStringAsync(hashUri).Result;
+            var originalHash = hash.Trim().Split(' ')[0].Trim().ToLower();
+            client.DownloadWithHash(requestUri, originalHash, hashAlgorithm, destination, progress);
+        }
+
+        public static void DownloadWithHash(this HttpClient client, string requestUri, string hash, HashAlgorithm hashAlgorithm,
+            Stream destination, Action<float> progress)
+        {
+            var hashingProxyStream = new HashProxyStream(destination, hashAlgorithm);
+            client.Download(requestUri, destination, progress);
+            var downloadedHash = string.Join("", hashingProxyStream.GetHash().Select(item => item.ToString("x2")));
+            if (downloadedHash == hash)
+            {
+                throw new Exception($"Хеш-сумма не совпадает: {downloadedHash} != {hash}");
+            }
+        }
+
         public static void CopyTo(this Stream source, Stream destination, int bufferSize, Action<long> progress)
         {
             if (source == null)

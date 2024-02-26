@@ -12,6 +12,6 @@ namespace Prestarter
         public static bool DownloadQuestionEnabled = true;
         
         public static bool UseGlobalJava = true;
-        public static IRuntimeDownloader JavaDownloader = new CompositeDownloader(new AdoptiumJavaDownloader(), new OpenJFXDownloader());
+        public static IRuntimeDownloader JavaDownloader = new CompositeDownloader(new AdoptiumJavaDownloader(), new OpenJFXDownloader(true));
     }
 }
