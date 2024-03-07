@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Prestarter.Helpers
 {
-
     public static class Extensions
     {
         public static void Download(this HttpClient client, string requestUri, Stream destination, Action<float> progress)
