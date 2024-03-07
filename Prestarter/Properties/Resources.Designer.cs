@@ -19,7 +19,7 @@ namespace Prestarter.Properties {
     // с помощью такого средства, как ResGen или Visual Studio.
     // Чтобы добавить или удалить член, измените файл .ResX и снова запустите ResGen
     // с параметром /str или перестройте свой проект VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -57,6 +57,141 @@ namespace Prestarter.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Querying BellSoft API.
+        /// </summary>
+        internal static string BellSoftApiQueryStatus {
+            get {
+                return ResourceManager.GetString("BellSoftApiQueryStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Processing response from BellSoft API.
+        /// </summary>
+        internal static string BellSoftApiResponseParsingStatus {
+            get {
+                return ResourceManager.GetString("BellSoftApiResponseParsingStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Removing old Java.
+        /// </summary>
+        internal static string DeletingOldJavaStatus {
+            get {
+                return ResourceManager.GetString("DeletingOldJavaStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Downloading launcher.
+        /// </summary>
+        internal static string DownloadingLauncherStatus {
+            get {
+                return ResourceManager.GetString("DownloadingLauncherStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Downloading {0}.
+        /// </summary>
+        internal static string DownloadingStatus {
+            get {
+                return ResourceManager.GetString("DownloadingStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на To launch {0} A speciffic Java version required. Download now {1}?.
+        /// </summary>
+        internal static string ForLauncherStartupSoftwareIsRequiredMessage {
+            get {
+                return ResourceManager.GetString("ForLauncherStartupSoftwareIsRequiredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Checksum does not match: {0} != {1}.
+        /// </summary>
+        internal static string HashsumIsIncorrectError {
+            get {
+                return ResourceManager.GetString("HashsumIsIncorrectError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на An error occurred during initialization: the server returned the code {0}.
+        /// </summary>
+        internal static string InitializationError {
+            get {
+                return ResourceManager.GetString("InitializationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Initialization.
+        /// </summary>
+        internal static string InitializationStatus {
+            get {
+                return ResourceManager.GetString("InitializationStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Java update available. Would you like us to update it?.
+        /// </summary>
+        internal static string JavaUpdateAvailableMessage {
+            get {
+                return ResourceManager.GetString("JavaUpdateAvailableMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на The launcher process exited unexpectedly.
+        /// </summary>
+        internal static string LauncherHasExitedTooFastError {
+            get {
+                return ResourceManager.GetString("LauncherHasExitedTooFastError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на An error occurred while processing the response.
+        /// </summary>
+        internal static string ParsingResponseError {
+            get {
+                return ResourceManager.GetString("ParsingResponseError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Searching existing launcher.
+        /// </summary>
+        internal static string SearchingForLauncherStatus {
+            get {
+                return ResourceManager.GetString("SearchingForLauncherStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Starting.
+        /// </summary>
+        internal static string StartingStatus {
+            get {
+                return ResourceManager.GetString("StartingStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Unpacking {0}.
+        /// </summary>
+        internal static string UnpackingStatus {
+            get {
+                return ResourceManager.GetString("UnpackingStatus", resourceCulture);
             }
         }
     }

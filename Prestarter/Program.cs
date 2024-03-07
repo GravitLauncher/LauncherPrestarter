@@ -1,10 +1,5 @@
 ﻿using System.Windows.Forms;
 
-using System;
-using System.Threading;
-using System.Windows.Forms;
-using System.Security.Policy;
-
 namespace Prestarter
 {
     internal enum ProgressBarState
