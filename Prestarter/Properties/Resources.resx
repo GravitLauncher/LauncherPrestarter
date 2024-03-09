@@ -117,49 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BellSoftApiQueryStatus" xml:space="preserve">
-    <value>Querying BellSoft API</value>
-  </data>
-  <data name="BellSoftApiResponseParsingStatus" xml:space="preserve">
-    <value>Processing response from BellSoft API</value>
-  </data>
-  <data name="DeletingOldJavaStatus" xml:space="preserve">
-    <value>Removing old Java</value>
-  </data>
-  <data name="DownloadingLauncherStatus" xml:space="preserve">
-    <value>Downloading launcher</value>
-  </data>
-  <data name="DownloadingStatus" xml:space="preserve">
-    <value>Downloading {0}</value>
-  </data>
-  <data name="ForLauncherStartupSoftwareIsRequiredMessage" xml:space="preserve">
-    <value>To launch {0} A speciffic Java version required. Download now {1}?</value>
-  </data>
-  <data name="HashsumIsIncorrectError" xml:space="preserve">
-    <value>Checksum does not match: {0} != {1}</value>
-  </data>
-  <data name="InitializationError" xml:space="preserve">
-    <value>An error occurred during initialization: the server returned the code {0}</value>
-  </data>
-  <data name="InitializationStatus" xml:space="preserve">
-    <value>Initialization</value>
-  </data>
-  <data name="JavaUpdateAvailableMessage" xml:space="preserve">
-    <value>Java update available. Would you like us to update it?</value>
-  </data>
-  <data name="LauncherHasExitedTooFastError" xml:space="preserve">
-    <value>The launcher process exited unexpectedly</value>
-  </data>
-  <data name="ParsingResponseError" xml:space="preserve">
-    <value>An error occurred while processing the response</value>
-  </data>
-  <data name="SearchingForLauncherStatus" xml:space="preserve">
-    <value>Searching existing launcher</value>
-  </data>
-  <data name="StartingStatus" xml:space="preserve">
-    <value>Starting</value>
-  </data>
-  <data name="UnpackingStatus" xml:space="preserve">
-    <value>Unpacking {0}</value>
-  </data>
 </root>

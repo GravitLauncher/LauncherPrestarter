@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Prestarter.Downloaders
 {
-    class CompositeDownloader : IRuntimeDownloader
+    internal class CompositeDownloader : IRuntimeDownloader
     {
         private readonly IRuntimeDownloader[] downloaders;
 

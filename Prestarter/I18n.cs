@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prestarter.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Resources;
@@ -11,26 +12,26 @@ namespace Prestarter
 {
     internal static class I18n
     {
-        public static string JavaUpdateAvailableMessage => Properties.Resources.JavaUpdateAvailableMessage;
-        public static string ForLauncherStartupSoftwareIsRequiredMessage => Properties.Resources.ForLauncherStartupSoftwareIsRequiredMessage;
+        public static string JavaUpdateAvailableMessage => L10nManager.Locale.JavaUpdateAvailableMessage;
+        public static string ForLauncherStartupSoftwareIsRequiredMessage => L10nManager.Locale.ForLauncherStartupSoftwareIsRequiredMessage;
 
 
-        public static string InitializationStatus => Properties.Resources.InitializationStatus;
-        public static string SearchingForLauncherStatus => Properties.Resources.SearchingForLauncherStatus;
-        public static string DownloadingLauncherStatus => Properties.Resources.DownloadingLauncherStatus;
+        public static string InitializationStatus => L10nManager.Locale.InitializationStatus;
+        public static string SearchingForLauncherStatus => L10nManager.Locale.SearchingForLauncherStatus;
+        public static string DownloadingLauncherStatus => L10nManager.Locale.DownloadingLauncherStatus;
 
 
-        public static string StartingStatus => Properties.Resources.StartingStatus;
-        public static string DownloadingStatus => Properties.Resources.DownloadingStatus;
-        public static string UnpackingStatus => Properties.Resources.UnpackingStatus;
-        public static string DeletingOldJavaStatus => Properties.Resources.DeletingOldJavaStatus;
-        public static string BellSoftApiQueryStatus => Properties.Resources.BellSoftApiQueryStatus;
-        public static string BellSoftApiResponseParsingStatus => Properties.Resources.BellSoftApiResponseParsingStatus;
+        public static string StartingStatus => L10nManager.Locale.StartingStatus;
+        public static string DownloadingStatus => L10nManager.Locale.DownloadingStatus;
+        public static string UnpackingStatus => L10nManager.Locale.UnpackingStatus;
+        public static string DeletingOldJavaStatus => L10nManager.Locale.DeletingOldJavaStatus;
+        public static string BellSoftApiQueryStatus => L10nManager.Locale.BellSoftApiQueryStatus;
+        public static string BellSoftApiResponseParsingStatus => L10nManager.Locale.BellSoftApiResponseParsingStatus;
 
 
-        public static string ParsingResponseError => Properties.Resources.ParsingResponseError;
-        public static string InitializationError => Properties.Resources.InitializationError;
-        public static string LauncherHasExitedTooFastError => Properties.Resources.LauncherHasExitedTooFastError;
-        public static string HashsumIsIncorrectError => Properties.Resources.HashsumIsIncorrectError;
+        public static string ParsingResponseError => L10nManager.Locale.ParsingResponseError;
+        public static string InitializationError => L10nManager.Locale.InitializationError;
+        public static string LauncherHasExitedTooFastError => L10nManager.Locale.LauncherHasExitedTooFastError;
+        public static string HashsumIsIncorrectError => L10nManager.Locale.HashsumIsIncorrectError;
     }
 }
