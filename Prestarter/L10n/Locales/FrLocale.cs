@@ -18,7 +18,7 @@
 
 
         public string ParsingResponseError => @"Erreur lors de l'analyse de la réponse";
-        public string InitializationError => @"Erreur lors de l'initialisation : le serveur a renvoyé le code {0}";
+        public string InitializationError => @"Erreur lors de l'initialisation: le serveur a renvoyé le code {0}";
         public string LauncherHasExitedTooFastError => @"Le processus du lanceur s'est terminé trop rapidement";
         public string HashsumIsIncorrectError => @"La somme de contrôle (hash) est incorrecte : {0} != {1}";
     }
