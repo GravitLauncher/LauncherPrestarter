@@ -1,6 +1,6 @@
 ﻿namespace Prestarter.Helpers
 {
-    internal class ByLocale : ILocale
+    internal class BeLocale : ILocale
     {
         public string JavaUpdateAvailableMessage => @"Даступна абнаўленне Java. Абнавіць?";
         public string ForLauncherStartupSoftwareIsRequiredMessage => @"Для запуску лаунчэра {0} неабходна праграмнае забеспячэнне Java. Спампаваць {1}?";
