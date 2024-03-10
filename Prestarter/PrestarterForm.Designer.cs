@@ -63,9 +63,8 @@
             this.statusLabel.Location = new System.Drawing.Point(141, 83);
             this.statusLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(96, 13);
+            this.statusLabel.Size = new System.Drawing.Size(0, 13);
             this.statusLabel.TabIndex = 2;
-            this.statusLabel.Text = "Инициализация...";
             // 
             // logoPictureBox
             // 

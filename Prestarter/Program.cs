@@ -1,9 +1,6 @@
-﻿using System.Windows.Forms;
-
-using System;
-using System.Threading;
+﻿using System;
+using System.Globalization;
 using System.Windows.Forms;
-using System.Security.Policy;
 
 namespace Prestarter
 {

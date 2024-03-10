@@ -40,7 +40,7 @@ namespace Prestarter.Downloaders
             var checksum = Environment.Is64BitOperatingSystem ? x64Checksum : x86Checksum;
             var name = GetName();
             string zipPath = Path.Combine(javaPath, "openjfx.zip");
-            reporter.SetStatus($"Скачивание {name}");
+            reporter.SetStatus(string.Format(I18n.DownloadingStatus, name));
             reporter.SetProgress(0);
             reporter.SetProgressBarState(ProgressBarState.Progress);
             using (var file = new FileStream(zipPath, FileMode.Create, FileAccess.Write, FileShare.None))
@@ -49,7 +49,7 @@ namespace Prestarter.Downloaders
                     file, reporter.SetProgress);
             }
             reporter.SetProgressBarState(ProgressBarState.Marqee);
-            reporter.SetStatus($"Распаковка {name}");
+            reporter.SetStatus(string.Format(I18n.UnpackingStatus, name));
             DownloaderHelper.UnpackZip(zipPath, javaPath, true);
             File.Delete(zipPath);
         }

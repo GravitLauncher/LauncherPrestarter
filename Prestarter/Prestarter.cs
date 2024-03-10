@@ -75,7 +75,7 @@ namespace Prestarter
             {
                 if (javaStatus == JavaStatus.NeedUpdate)
                 {
-                    var dialog = MessageBox.Show("Доступно обновление Java. Обновить?", "Prestarter", MessageBoxButtons.YesNoCancel);
+                    var dialog = MessageBox.Show(I18n.JavaUpdateAvailableMessage, "Prestarter", MessageBoxButtons.YesNoCancel);
                     if (dialog == DialogResult.No)
                     {
                         return javaPath;
@@ -87,7 +87,7 @@ namespace Prestarter
                 }
                 else
                 {
-                    var dialog = MessageBox.Show($"Для запуска лаунчера {Config.Project} необходимо программное обеспечение Java. Скачать {Config.JavaDownloader.GetName()}?", 
+                    var dialog = MessageBox.Show(string.Format(I18n.ForLauncherStartupSoftwareIsRequiredMessage, Config.Project, Config.JavaDownloader.GetName()), 
                         "Prestarter", MessageBoxButtons.OKCancel);
                     if (dialog != DialogResult.OK)
                     {
@@ -109,6 +109,7 @@ namespace Prestarter
 
         public void Run()
         {
+            reporter.SetStatus(I18n.InitializationStatus);
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
             var appData = Environment.GetEnvironmentVariable("APPDATA");
@@ -122,7 +123,7 @@ namespace Prestarter
                 return;
             }
 
-            reporter.SetStatus("Поиск лаунчера");
+            reporter.SetStatus(I18n.SearchingForLauncherStatus);
             var launcherPath = Path.Combine(basePath, "Launcher.jar");
 
             if (Config.LauncherDownloadUrl == null)
@@ -132,7 +133,7 @@ namespace Prestarter
             else if (!File.Exists(launcherPath))
             {
                 reporter.ShowForm();
-                reporter.SetStatus("Скачивание лаунчера");
+                reporter.SetStatus(I18n.DownloadingLauncherStatus);
                 reporter.SetProgress(0);
                 reporter.SetProgressBarState(ProgressBarState.Progress);
                 using (var file = new FileStream(launcherPath, FileMode.Create, FileAccess.Write, FileShare.None))
@@ -142,7 +143,7 @@ namespace Prestarter
                 reporter.SetProgressBarState(ProgressBarState.Marqee);
             }
 
-            reporter.SetStatus("Запуск");
+            reporter.SetStatus(I18n.StartingStatus);
             string args = "";
             foreach (var e in Program.Arguments)
             {
@@ -163,7 +164,7 @@ namespace Prestarter
             process.Start();
             if (process.WaitForExit(500))
             {
-                throw new Exception("Процесс лаунчера закрылся слишком быстро");
+                throw new Exception(I18n.LauncherHasExitedTooFastError);
             }
         }
     }
