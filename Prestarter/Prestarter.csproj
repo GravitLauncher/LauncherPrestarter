@@ -81,6 +81,9 @@
     <Compile Include="L10n\Locales\BeLocale.cs" />
     <Compile Include="L10n\Locales\UaLocale.cs" />
     <Compile Include="L10n\Locales\RuLocale.cs" />
+    <Compile Include="L10n\Locales\LtLocale.cs" />
+    <Compile Include="L10n\Locales\LvLocale.cs" />
+    <Compile Include="L10n\Locales\PlLocale.cs" />
     <Compile Include="PrestarterForm.cs">
       <SubType>Form</SubType>
     </Compile>
