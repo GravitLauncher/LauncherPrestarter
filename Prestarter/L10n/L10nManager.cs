@@ -14,7 +14,15 @@ namespace Prestarter.Helpers
 
         private static readonly Dictionary<string, ILocale> locales = new Dictionary<string, ILocale>
         {
-            { "ru", new RuLocale() }
+            { "by", new ByLocale() },
+            { "es", new EsLocale() },
+            { "fr", new FrLocale() },
+            { "kz", new KzLocale() },
+            { "lt", new LtLocale() },
+            { "lv", new LvLocale() },
+            { "pl", new PlLocale() },
+            { "ru", new RuLocale() },
+            { "ua", new UaLocale() }
         };
 
         public static ILocale Locale

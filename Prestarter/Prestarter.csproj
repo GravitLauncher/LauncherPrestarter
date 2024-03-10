@@ -70,11 +70,16 @@
     <Compile Include="Config.cs" />
     <Compile Include="Helpers\DownloaderHelper.cs" />
     <Compile Include="Helpers\HashProxyStream.cs" />
+    <Compile Include="L10n\Locales\FrLocale.cs" />
+    <Compile Include="L10n\Locales\EsLocale.cs" />
+    <Compile Include="L10n\Locales\KzLocale.cs" />
     <Compile Include="L10n\Locales\EnUsLocale.cs" />
     <Compile Include="L10n\ILocale.cs" />
     <Compile Include="L10n\L10nManager.cs" />
     <Compile Include="Helpers\JsonParser.cs" />
     <Compile Include="I18n.cs" />
+    <Compile Include="L10n\Locales\ByLocale.cs" />
+    <Compile Include="L10n\Locales\UaLocale.cs" />
     <Compile Include="L10n\Locales\RuLocale.cs" />
     <Compile Include="PrestarterForm.cs">
       <SubType>Form</SubType>
