@@ -22,7 +22,7 @@ namespace Prestarter.Helpers
             { "lv", new LvLocale() },
             { "pl", new PlLocale() },
             { "ru", new RuLocale() },
-            { "ua", new UaLocale() }
+            { "uk", new UkLocale() }
         };
 
         public static ILocale Locale

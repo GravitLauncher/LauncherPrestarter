@@ -79,7 +79,7 @@
     <Compile Include="Helpers\JsonParser.cs" />
     <Compile Include="I18n.cs" />
     <Compile Include="L10n\Locales\BeLocale.cs" />
-    <Compile Include="L10n\Locales\UaLocale.cs" />
+    <Compile Include="L10n\Locales\UkLocale.cs" />
     <Compile Include="L10n\Locales\RuLocale.cs" />
     <Compile Include="L10n\Locales\LtLocale.cs" />
     <Compile Include="L10n\Locales\LvLocale.cs" />
