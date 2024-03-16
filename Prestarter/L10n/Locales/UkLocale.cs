@@ -1,6 +1,6 @@
 ﻿namespace Prestarter.Helpers
 {
-    internal class UaLocale : ILocale
+    internal class UkLocale : ILocale
     {
         public string JavaUpdateAvailableMessage => @"Доступне оновлення Java. Оновити?";
         public string ForLauncherStartupSoftwareIsRequiredMessage => @"Для запуску лаунчера {0} потрібне програмне забезпечення Java. Завантажити {1}?";
