@@ -7,7 +7,7 @@ namespace Prestarter
         public static string Project = "Minecraft";
         public static string Version = "0.1.0";
 
-        public static string LauncherDownloadUrl = "https://demo.gravit-support.ru/updates/Launcher.jar";
+        public static string LauncherDownloadUrl = null;
         
         public static bool DownloadQuestionEnabled = true;
         
