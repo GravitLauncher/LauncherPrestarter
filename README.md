@@ -19,16 +19,24 @@ Prestarter_module работает только с GravitLauncher 5.5.0+
 ### Сборка на Linux
 - Установите `mono-msbuild`
 - Откройте файл `Config.cs`
-- Настройте обязательные параметры: `Project`(название вашего проекта как в лаунчсервере) и `LauncherUrl`(ссылку на ваш лаунчер как в лаунчсервере)
+- Настройте обязательные параметры: `Project`(название вашего проекта как в лаунчсервере)
 - Запустите сборку командой `msbuild -p:Configuration=Release`
 ### Сборка модуля на Linux
 - Перейдите в каталог `Prestarter_module`
 - Запустите сборку командой `./gradlew build`
 - Собранный файл вы найдете в `build\libs`
 
-### Режим замены launch4j
-Для использования Prestarter в режиме замены launch4j выполните следующие действия:
-- Установите `LauncherUrl` в `null` в файле `Config.cs` (обратите внимание: `null` должен быть без кавычек)
+### Установка на LaunchServer
+Для использования Prestarter выполните следующие действия:
 - Установите модуль `Prestarter_module.jar` на лаунчсервер в папку `modules`
 - Соберите проект с помощью Visual Studio(Windows) или msbuild(Linux)
 - Поместите собранный файл в корень лаунчсервера с названием `Prestarter.exe`
+
+### Prestarter как отдельный файл (Обновляться у пользователей не способен)
+- В `LauncherUrl` впишите ссылку на файл `Launcher.jar` в конфиге `Prestarter\Config.cs`
+  - Пример для разработки:
+  ```cs
+     public static string LauncherDownloadUrl = "http://127.0.0.1:9274/Launcher.jar"
+  ```
+- Установите модуль `Prestarter_module.jar` на лаунчсервер в папку `modules`
+- Соберите проект с помощью Visual Studio(Windows) или msbuild(Linux)
