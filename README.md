@@ -8,8 +8,8 @@ Prestarter_module работает только с GravitLauncher 5.5.0+
 - Откройте `PrestarterForm.cs`
 - В конструкторе измените дизайн, надписи и логотип под ваш проект
 - Откройте файл `Config.cs`
-- Настройте обязательные параметры: `Project`(название вашего проекта как в лаунчсервере) и `LauncherDownloadUrl`(ссылку на ваш лаунчер как в лаунчсервере)  
-- Выберите тип сборки Release  и соберите проект комбинацоей клавиш `Ctrl+Shift+B
+- Настройте обязательно параметр: `Project`(название вашего проекта как в лаунчсервере)
+- Выберите тип сборки Release и соберите проект комбинацоей клавиш `Ctrl+Shift+B
 ### Сборка модуля на Windows
 - Перейдите в каталог `Prestarter_module`
 - Откройте терминал в папке в которую мы зашли ранее
@@ -38,5 +38,4 @@ Prestarter_module работает только с GravitLauncher 5.5.0+
   ```cs
      public static string LauncherDownloadUrl = "http://127.0.0.1:9274/Launcher.jar"
   ```
-- Установите модуль `Prestarter_module.jar` на лаунчсервер в папку `modules`
 - Соберите проект с помощью Visual Studio(Windows) или msbuild(Linux)
