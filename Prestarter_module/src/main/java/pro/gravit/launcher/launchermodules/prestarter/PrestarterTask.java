@@ -42,7 +42,7 @@ public class PrestarterTask implements LauncherBuildTask, BuildExeMainTask {
             try(InputStream input = IOHelper.newInput(prestarterPath)) {
                 input.transferTo(output);
             }
-            try(InputStream input = IOHelper.newInput(server.launcherBinary.syncBinaryFile)) {
+            try(InputStream input = IOHelper.newInput(server.updatesDir.resolve(server.launcherBinary.syncBinaryFile))) {
                 input.transferTo(output);
             }
         }
