@@ -32,7 +32,7 @@ Prestarter_module работает только с GravitLauncher 5.5.0+
 - Соберите проект с помощью Visual Studio(Windows) или msbuild(Linux)
 - Поместите собранный файл в корень лаунчсервера с названием `Prestarter.exe`
 
-### Prestarter как отдельный файл (Обновляться у пользователей не способен)
+### \[ АЛЬТЕРНАТИВНЫЙ СПОСОБ УСТАНОВКИ \] Prestarter'a как отдельный файл (Обновляться у пользователей не способен)
 - В `LauncherDownloadUrl` впишите ссылку на файл `Launcher.jar` в конфиге `Prestarter\Config.cs`
   - Пример для разработки:
   ```cs
