@@ -8,7 +8,7 @@ namespace Prestarter
     internal partial class PrestarterForm : Form, IUIReporter
     {
         private bool dragging = false;
-        
+
         private Point dragCursorPoint;
         private Point dragFormPoint;
 
@@ -71,7 +71,7 @@ namespace Prestarter
 
         public void SetProgress(float value)
         {
-            Invoke(new Action(() => mainProgressBar.Value = (int) Math.Round(value * 100)));
+            Invoke(new Action(() => mainProgressBar.Value = (int)Math.Round(value * 100)));
         }
 
         public void ShowForm()

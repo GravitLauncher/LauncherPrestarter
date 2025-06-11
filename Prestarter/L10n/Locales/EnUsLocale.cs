@@ -1,6 +1,6 @@
 ﻿namespace Prestarter.Helpers
 {
-    internal class EnUsLocale : ILocale  
+    internal class EnUsLocale : ILocale
     {
         public string JavaUpdateAvailableMessage => @"Java update available. Would you like us to update it?";
         public string ForLauncherStartupSoftwareIsRequiredMessage => @"To launch {0} A speciffic Java version required. Download now {1}?";

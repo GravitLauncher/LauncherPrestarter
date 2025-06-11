@@ -19,7 +19,7 @@ namespace Prestarter.Helpers
 
         public override long Position { get => throw new InvalidOperationException(); set => throw new InvalidOperationException(); }
 
-        public HashProxyStream(Stream baseStream, HashAlgorithm hashAlgorithm) 
+        public HashProxyStream(Stream baseStream, HashAlgorithm hashAlgorithm)
         {
             this.baseStream = baseStream;
             this.hashAlgorithm = hashAlgorithm;
