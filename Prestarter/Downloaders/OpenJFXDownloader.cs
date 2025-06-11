@@ -11,14 +11,14 @@ namespace Prestarter.Downloaders
 {
     internal class OpenJFXDownloader : IRuntimeDownloader
     {
-        private const string x64OriginalUrl = "https://download2.gluonhq.com/openjfx/23.0.1/openjfx-23.0.1_windows-x64_bin-sdk.zip";
+        private const string x64OriginalUrl = "https://download2.gluonhq.com/openjfx/24/openjfx-24_windows-x64_bin-sdk.zip";
         private const string x86OriginalUrl = "https://download2.gluonhq.com/openjfx/17.0.8/openjfx-17.0.8_windows-x86_bin-sdk.zip";
 
-        private const string x64MirrorUrl = "https://gravit-jvm-mirror.re146.dev/openjfx-23.0.1_windows-x64_bin-sdk.zip";
+        private const string x64MirrorUrl = "https://gravit-jvm-mirror.re146.dev/openjfx-24_windows-x64_bin-sdk.zip";
         private const string x86MirrorUrl = "https://gravit-jvm-mirror.re146.dev/openjfx-17.0.8_windows-x86_bin-sdk.zip";
 
-        // private const string x64ChecksumUrl = "https://download2.gluonhq.com/openjfx/23.0.1/openjfx-23.0.1_windows-x64_bin-sdk.zip.sha256";
-        private const string x64Checksum = "0f4d58b15a7148a203ab72ce376f1fa17b243e38e6d66e29d04a0177ae5dc3d3";
+        // private const string x64ChecksumUrl = "https://download2.gluonhq.com/openjfx/24/openjfx-24_windows-x64_bin-sdk.zip.sha256";
+        private const string x64Checksum = "28b448f5db9d2e6ff174fb8de361aa4a87e6f587286d9f9f1ceee8c6ecdd0f1a";
         // private const string x86ChechsumUrl = "https://download2.gluonhq.com/openjfx/17.0.8/openjfx-17.0.8_windows-x86_bin-sdk.zip.sha256";
         private const string x86Checksum = "c3a56d545f2614465664b66cb4c178ddd7fe37d4ec7b53d2248a2d80f4a04ed7";
 
