@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace Prestarter
 {

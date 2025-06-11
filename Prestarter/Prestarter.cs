@@ -46,7 +46,7 @@ namespace Prestarter
         private enum JavaStatus
         {
             Ok,
-            NotInstalled, 
+            NotInstalled,
             NeedUpdate
         }
 
@@ -87,7 +87,7 @@ namespace Prestarter
                 }
                 else
                 {
-                    var dialog = MessageBox.Show(string.Format(I18n.ForLauncherStartupSoftwareIsRequiredMessage, Config.Project, Config.JavaDownloader.GetName()), 
+                    var dialog = MessageBox.Show(string.Format(I18n.ForLauncherStartupSoftwareIsRequiredMessage, Config.Project, Config.JavaDownloader.GetName()),
                         "Prestarter", MessageBoxButtons.OKCancel);
                     if (dialog != DialogResult.OK)
                     {
