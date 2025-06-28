@@ -8,10 +8,10 @@ def mainClassName = "pro.gravit.launcher.launchermodules.prestarter.PrestarterMo
 
 repositories {
     maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
+        url "https://maven.gravitlauncher.com"
     }
     maven {
-        url "https://maven.gravitlauncher.com"
+        url "https://oss.sonatype.org/content/repositories/snapshots"
     }
     mavenCentral()
     mavenLocal()

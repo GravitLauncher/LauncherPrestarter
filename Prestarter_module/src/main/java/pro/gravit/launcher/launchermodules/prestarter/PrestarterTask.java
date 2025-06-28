@@ -40,6 +40,7 @@ public class PrestarterTask implements LauncherBuildTask, BuildExeMainTask {
             throw new FileNotFoundException(prestarterPath.toString());
         }
         Path outputPath = context.makeTempPath("prestarter", "exe");
+        context.putProperty("checkClientSecret", server.launcherBinary.context.getProperty("checkClientSecret"));
         try(OutputStream output = IOHelper.newOutput(outputPath)) {
             try(InputStream input = IOHelper.newInput(prestarterPath)) {
                 input.transferTo(output);
