@@ -19,7 +19,7 @@ use tauri::Emitter;
 use crate::{
     config::{is_java_outdated, load_version_info, target_dir},
     download::fetch_latest_release,
-    runner::{java_executable_file, relaunch_using_java},
+    runner::relaunch_using_java,
 };
 
 #[tauri::command]
