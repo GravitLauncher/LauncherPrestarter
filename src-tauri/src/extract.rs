@@ -1,4 +1,4 @@
-use std::{fs::{self, File}, io::{copy, Write}, path::Path};
+use std::{fs::{self, File}, io::copy, path::Path};
 use zip::read::ZipArchive;
 
 pub type ProgressCallback = dyn Fn(u64, u64);

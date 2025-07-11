@@ -8,11 +8,16 @@
   let extractTotal = 1;
   let error = "";
   let done = false;
+  let running = false;
 
   function startDownload() {
     error = "";
     done = false;
     invoke("start_download");
+  }
+
+  function close_application() {
+    invoke("close_app");
   }
 
   listen<any>("download-progress", (event) => {
@@ -29,8 +34,13 @@
     error = event.payload;
   });
 
+  listen("running", () => {
+    running = true;
+  });
+
   listen("done", () => {
     done = true;
+    close_application();
   });
 </script>
 
@@ -46,6 +56,10 @@
 <h3>Extract Progress: {extractProgress} / {extractTotal}</h3>
 <progress value={extractProgress} max={extractTotal}></progress>
 
+{#if running && !done}
+  <p>Start GravitLauncher</p>
+{/if}
+
 {#if done}
-  <p>Download and extraction complete!</p>
+  <p>Complete</p>
 {/if}

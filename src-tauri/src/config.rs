@@ -1,4 +1,4 @@
-use anyhow::{Context, Result};
+use anyhow::{anyhow, Result};
 use serde::{Deserialize, Serialize};
 use std::{fs, path::PathBuf};
 
@@ -18,7 +18,15 @@ pub fn save_version_info(version: &str) -> Result<()> {
     Ok(())
 }
 
+
+pub fn get_appdata_dir() -> Result<PathBuf> {
+    dirs_next::data_dir().ok_or_else(|| anyhow!("Cannot find AppData directory"))
+}
+
+pub fn target_dir() -> Result<PathBuf> {
+    Ok(get_appdata_dir()?.join("GravitLauncherStore"))
+}
+
 fn config_path() -> Result<PathBuf> {
-    let dir = dirs_next::data_dir().ok_or_else(|| anyhow::anyhow!("No AppData found"))?;
-    Ok(dir.join("MyJavaDownloader/config.json"))
+    Ok(target_dir()?.join("prestarter-config.json"))
 }
