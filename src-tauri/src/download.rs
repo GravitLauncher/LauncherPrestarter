@@ -11,6 +11,7 @@ use std::{
 #[derive(Debug, Deserialize)]
 pub struct JavaRelease {
     pub(crate) downloadUrl: String,
+    pub(crate) featureVersion: String,
     pub(crate) version: String,
     pub(crate) filename: String,
     pub(crate) size: u64,

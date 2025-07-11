@@ -1,5 +1,6 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
+
 mod config;
 mod download;
 mod extract;
@@ -8,14 +9,15 @@ mod runner;
 use download::download_file;
 use extract::extract_zip;
 use std::{
-    fs,
+    fs::{self, File},
+    path::PathBuf,
     sync::{atomic::AtomicU64, Arc},
     time::{SystemTime, UNIX_EPOCH},
 };
 use tauri::Emitter;
 
 use crate::{
-    config::target_dir,
+    config::{is_java_outdated, load_version_info, target_dir},
     download::fetch_latest_release,
     runner::{java_executable_file, relaunch_using_java},
 };
@@ -59,43 +61,53 @@ fn start_download(app_handle: tauri::AppHandle) -> Result<(), String> {
                 return;
             }
         };
-        let jdk_dir = appdata_dir.join(format!("JRE-{}", release.version));
+        let jdk_dir = appdata_dir.join(format!("JRE-{}", release.featureVersion));
         let zip_path = appdata_dir.join(&release.filename);
 
-        if !java_executable_file(&jdk_dir).exists() {
+        let handle = arc_handle.clone();
+        match fs::create_dir_all(&appdata_dir) {
+            Ok(e) => e,
+            Err(e) => {
+                let _ = handle.emit("error", e.to_string());
+                return;
+            }
+        }
+
+        let handle = arc_handle.clone();
+        match config::save_version_info(&release.version, &release.featureVersion) {
+            Ok(e) => e,
+            Err(e) => {
+                let _ = handle.emit("error", e.to_string());
+                return;
+            }
+        }
+
+        let handle = arc_handle.clone();
+        if let Err(e) = download_file(
+            &release.downloadUrl,
+            &zip_path,
+            release.size,
+            &emit_progress,
+        ) {
+            let _ = handle.emit("error", e.to_string());
+            return;
+        }
+
+        let handle = arc_handle.clone();
+        if let Err(e) = extract_zip(&zip_path, &jdk_dir, &emit_extract) {
+            let _ = handle.emit("error", e.to_string());
+            return;
+        }
+
+        // Save extracted mark
+        {
             let handle = arc_handle.clone();
-            match fs::create_dir_all(&appdata_dir) {
-                Ok(e) => e,
+            match File::create(&jdk_dir.join("success-extracted-mark")) {
+                Ok(_) => {}
                 Err(e) => {
                     let _ = handle.emit("error", e.to_string());
                     return;
                 }
-            }
-
-            let handle = arc_handle.clone();
-            match config::save_version_info(&release.version) {
-                Ok(e) => e,
-                Err(e) => {
-                    let _ = handle.emit("error", e.to_string());
-                    return;
-                }
-            }
-
-            let handle = arc_handle.clone();
-            if let Err(e) = download_file(
-                &release.downloadUrl,
-                &zip_path,
-                release.size,
-                &emit_progress,
-            ) {
-                let _ = handle.emit("error", e.to_string());
-                return;
-            }
-
-            let handle = arc_handle.clone();
-            if let Err(e) = extract_zip(&zip_path, &jdk_dir, &emit_extract) {
-                let _ = handle.emit("error", e.to_string());
-                return;
             }
         }
 
@@ -136,13 +148,34 @@ struct ExtractEvent {
     total: u64,
 }
 
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
+
+
+fn check_java_ready() -> Option<PathBuf> {
+    let config = load_version_info().ok()??;
+    let java_dir = target_dir().ok()?.join(format!("JRE-{}", config.java_feature_version));
+    if is_java_outdated(&config) {
+        return None;
+    }
+    if !java_dir.join("success-extracted-mark").exists() {
+        return None;
+    }
+    Some(java_dir)
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    {
+        if let Some(java_path) = check_java_ready() {
+            match relaunch_using_java(&java_path) {
+                Ok(_) => {},
+                Err(e) => {
+                    println!("{}", e.to_string());
+                },
+            }
+            return;
+        }
+    }
+
     #[cfg(target_family = "unix")]
     {
         std::env::set_var("__GL_THREADED_OPTIMIZATIONS", "0");
@@ -150,7 +183,7 @@ pub fn run() {
     }
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![greet, start_download, close_app])
+        .invoke_handler(tauri::generate_handler![start_download, close_app])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
