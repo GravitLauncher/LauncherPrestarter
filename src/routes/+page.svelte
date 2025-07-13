@@ -1,8 +1,11 @@
 <script lang="ts">
+  import "reset-css";
+  import "$lib/css/global.css";
+  import logo from "$lib/images/logo.svg";
   import { invoke } from "@tauri-apps/api/core";
   import { listen, type EventCallback } from "@tauri-apps/api/event";
 
-  let downloadProgress = 0;
+  let downloadProgress = 0.4;
   let downloadTotal = 1;
   let extractProgress = 0;
   let extractTotal = 1;
@@ -26,8 +29,8 @@
   });
 
   listen<any>("extract-progress", (event) => {
-    extractProgress = event.payload.processed;
-    extractTotal = event.payload.total;
+    downloadProgress = event.payload.processed;
+    downloadTotal = event.payload.total;
   });
 
   listen<any>("error", (event) => {
@@ -42,24 +45,24 @@
     done = true;
     close_application();
   });
+
+  startDownload();
 </script>
 
-<button on:click={startDownload}>Start Download</button>
+<div class="layout">
+  <div class="logo-container">
+    <img class="logo" alt="logo" src={logo} />
+    <p class="description">GravitLauncher</p>
+  </div>
 
-{#if error}
-  <p style="color: red">Error: {error}</p>
-{/if}
-
-<h3>Download Progress: {downloadProgress} / {downloadTotal}</h3>
-<progress value={downloadProgress} max={downloadTotal}></progress>
-
-<h3>Extract Progress: {extractProgress} / {extractTotal}</h3>
-<progress value={extractProgress} max={extractTotal}></progress>
-
-{#if running && !done}
-  <p>Start GravitLauncher</p>
-{/if}
-
-{#if done}
-  <p>Complete</p>
-{/if}
+  <div class="download-block">
+    <div class="speed-block">
+      <div>
+       <font class="speed">214</font>
+       <font class="speed-label">MB/S</font>
+      </div>
+      <font class="total-label">100 MB</font>
+    </div>
+    <progress class="progress-bar" value={downloadProgress} max={downloadTotal}></progress>
+  </div>
+</div>

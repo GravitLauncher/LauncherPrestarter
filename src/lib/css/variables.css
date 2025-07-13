@@ -1,0 +1,9 @@
+:root {
+    --colors-base: #FFFFFF;
+    --colors-text-primary: #2C2C2C;
+    --colors-text-secondary: #D7D7D7;
+    --colors-text-description: #707070;
+    --colors-shadow: #D7D7D7EE;
+    --colors-active: linear-gradient(90deg, #7248A7 10.39%, #2C03A8 64.61%);
+    --colors-progressbar: linear-gradient(90deg, #8D4CE0 10.39%, #5711FA 93.28%);
+}
