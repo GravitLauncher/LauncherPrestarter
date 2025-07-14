@@ -74,7 +74,7 @@ fn start_download(app_handle: tauri::AppHandle) -> Result<(), String> {
         }
 
         let handle = arc_handle.clone();
-        match config::save_version_info(&release.version, &release.featureVersion) {
+        match config::save_version_info(&release.version, release.featureVersion) {
             Ok(e) => e,
             Err(e) => {
                 let _ = handle.emit("error", e.to_string());
@@ -165,6 +165,7 @@ fn check_java_ready() -> Option<PathBuf> {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     {
+        #[cfg(not(dev))]
         if let Some(java_path) = check_java_ready() {
             match relaunch_using_java(&java_path) {
                 Ok(_) => {},

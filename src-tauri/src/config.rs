@@ -6,14 +6,14 @@ use std::{fs, path::PathBuf};
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Config {
     pub java_version: String,
-    pub java_feature_version: String,
+    pub java_feature_version: u32,
     pub install_date: DateTime<Utc>,
 }
 
-pub fn save_version_info(version: &str, feature_version : &str) -> Result<()> {
+pub fn save_version_info(version: &str, feature_version : u32) -> Result<()> {
     let config = Config {
         java_version: version.to_string(),
-        java_feature_version: feature_version.to_string(),
+        java_feature_version: feature_version,
         install_date: chrono::Utc::now(),
     };
     let path = config_path()?;
