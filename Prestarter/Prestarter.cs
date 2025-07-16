@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
@@ -85,45 +86,51 @@ namespace Prestarter
             
             var launcherPath = Path.Combine(basePath, "Launcher.jar");
 
-            if (Config.LauncherDownloadUrl == null)
+            if (SystemHelper.NeedDownloadLauncher(launcherPath))
             {
-                launcherPath = Assembly.GetEntryAssembly()?.Location;
-            }
-            else if (!File.Exists(launcherPath))
-            {
-                _reporter.ShowForm();
-                _reporter.SetStatus(I18n.DownloadingLauncherStatus);
-                _reporter.SetProgress(0);
-                _reporter.SetProgressBarState(ProgressBarState.Progress);
-                using (var file = new FileStream(launcherPath, FileMode.Create, FileAccess.Write, FileShare.None))
-                {
-                    SharedHttpClient.Download(Config.LauncherDownloadUrl, file, value => _reporter.SetProgress(value));
-                }
-
-                _reporter.SetProgressBarState(ProgressBarState.Marqee);
+                DownloadLauncher(launcherPath);
             }
 
             _reporter.SetStatus(I18n.StartingStatus);
-            var args = "";
-            foreach (var e in Program.Arguments)
-            {
-                args += " \"";
-                args += e;
-                args += "\"";
-            }
+            
+            var process = GetProcess(javaPath, launcherPath);
+
+            process.Start();
+            
+            if (process.WaitForExit(500)) 
+                throw new Exception(I18n.LauncherHasExitedTooFastError);
+        }
+
+        private static Process GetProcess(string javaPath, string launcherPath)
+        {
+            var additionalArguments = string.Join(" ", Program.Arguments.Select(e => $"\"{e}\""));
 
             var process = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = Path.Combine(javaPath, "bin", "java.exe"),
-                    Arguments = $"-Dlauncher.noJavaCheck=true -jar \"{launcherPath}\" {args}",
+                    Arguments = $"-Dlauncher.noJavaCheck=true -jar \"{launcherPath}\" {additionalArguments}",
                     UseShellExecute = false,
                     CreateNoWindow = true
                 }
             };
-            process.Start();
-            if (process.WaitForExit(500)) throw new Exception(I18n.LauncherHasExitedTooFastError);
+            
+            return process;
+        }
+
+        private void DownloadLauncher(string launcherPath)
+        {
+            _reporter.ShowForm();
+            _reporter.SetStatus(I18n.DownloadingLauncherStatus);
+            _reporter.SetProgress(0);
+            _reporter.SetProgressBarState(ProgressBarState.Progress);
+            using (var file = new FileStream(launcherPath, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                SharedHttpClient.Download(Config.LauncherDownloadUrl, file, value => _reporter.SetProgress(value));
+            }
+
+            _reporter.SetProgressBarState(ProgressBarState.Marqee);
         }
     }
 }

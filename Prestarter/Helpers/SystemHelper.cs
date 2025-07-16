@@ -61,5 +61,10 @@ namespace Prestarter.Helpers
                 return JavaStatus.NotInstalled;
             }
         }
+
+        public static bool NeedDownloadLauncher(string launcherPath)
+        {
+            return Config.LauncherDownloadUrl != null && !File.Exists(launcherPath);
+        }
     }
 }
