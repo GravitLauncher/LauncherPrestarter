@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using Prestarter.Helpers;
 
 namespace Prestarter
 {
@@ -55,32 +56,38 @@ namespace Prestarter
             }));
         }
 
-        private void PreStartedForm_MouseUp(object sender, MouseEventArgs e)
+        private void FormMouseUp(object sender, MouseEventArgs e)
         {
             dragging = false;
         }
 
-        private void PreStartedForm_MouseMove(object sender, MouseEventArgs e)
+        private void FormMouseMove(object sender, MouseEventArgs e)
         {
             if (!dragging) return;
             var difference = Point.Subtract(Cursor.Position, new Size(dragCursorPoint));
             Location = Point.Add(dragFormPoint, new Size(difference));
         }
 
-        private void PreStartedForm_MouseDown(object sender, MouseEventArgs e)
+        private void FormMouseDown(object sender, MouseEventArgs e)
         {
             dragging = true;
             dragCursorPoint = Cursor.Position;
             dragFormPoint = Location;
         }
 
-        private void buttonExit_Click(object sender, EventArgs e)
+        private void CloseWindow(object sender, EventArgs e)
         {
             Environment.Exit(1);
         }
 
-        private void PrestarterForm_Load(object sender, EventArgs args)
+        private void FormLoaded(object sender, EventArgs args)
         {
+            logoLabel.Text = Config.Project;
+            BackColor = ColorHelper.FromHex(Config.BackgroundColorHex);
+            ForeColor = ColorHelper.FromHex(Config.ForegroundColorHex);
+            mainProgressBar.ProgressBarColor = ColorHelper.FromHex(Config.PrimaryColorHex);
+            mainProgressBar.BackColor = BackColor;
+            
             new Thread(() =>
             {
                 var prestarter = new Prestarter(this);

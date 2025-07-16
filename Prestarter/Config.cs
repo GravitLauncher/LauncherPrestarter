@@ -25,7 +25,7 @@ namespace Prestarter
         /// <summary>
         ///     Показывать ли диалог перед скачиванием Java
         /// </summary>
-        public static readonly bool DownloadQuestionEnabled = true;
+        public static readonly bool DownloadQuestionEnabled = false;
 
         /// <summary>
         ///     Использовать общую Java для всех лаунчеров
@@ -42,5 +42,9 @@ namespace Prestarter
         ///     Наименование диалога
         /// </summary>
         public static string DialogName => $"{Project} Prestarter";
+
+        public static readonly string PrimaryColorHex = "#6C70F1";
+        public static readonly string BackgroundColorHex = "#1A1A1A";
+        public static readonly string ForegroundColorHex = "#969696";
     }
 }
