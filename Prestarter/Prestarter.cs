@@ -39,7 +39,7 @@ namespace Prestarter
 
         private string VerifyAndDownloadJava(string basePath)
         {
-            var appData = Environment.GetEnvironmentVariable("APPDATA");
+            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
             string javaPath;
             if (Config.UseGlobalJava)
@@ -47,7 +47,9 @@ namespace Prestarter
                     Config.JavaDownloader.GetDirectoryPrefix());
             else
                 javaPath = Path.Combine(basePath, "jre-full");
-            Directory.CreateDirectory(javaPath);
+            
+            if (!Directory.Exists(javaPath))
+                Directory.CreateDirectory(javaPath);
 
             var dateFilePath = Path.Combine(javaPath, "date-updated");
             var javaStatus = CheckJavaUpdateDate(dateFilePath);
@@ -56,7 +58,7 @@ namespace Prestarter
             {
                 if (javaStatus == JavaStatus.NeedUpdate)
                 {
-                    var dialog = MessageBox.Show(I18n.JavaUpdateAvailableMessage, "Prestarter",
+                    var dialog = MessageBox.Show(I18n.JavaUpdateAvailableMessage, $"{Config.Project} Prestarter",
                         MessageBoxButtons.YesNoCancel);
                     if (dialog == DialogResult.No) return javaPath;
 
@@ -88,7 +90,7 @@ namespace Prestarter
             reporter.SetStatus(I18n.InitializationStatus);
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-            var appData = Environment.GetEnvironmentVariable("APPDATA");
+            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
             var basePath = Path.Combine(appData, Config.Project);
             Directory.CreateDirectory(basePath);
