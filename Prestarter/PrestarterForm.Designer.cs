@@ -35,7 +35,7 @@ namespace Prestarter
             this.logoLabel = new System.Windows.Forms.Label();
             this.statusLabel = new System.Windows.Forms.Label();
             this.logoPictureBox = new System.Windows.Forms.PictureBox();
-            this.exitButton = new System.Windows.Forms.Button();
+            this.exitButton = new CircularButton();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -87,13 +87,20 @@ namespace Prestarter
             // 
             // exitButton
             // 
+            this.exitButton.BackColor = System.Drawing.Color.Transparent;
+            this.exitButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.exitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.exitButton.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.exitButton.ForeColor = System.Drawing.Color.White;
+            this.exitButton.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(17)))), ((int)(((byte)(35)))));
             this.exitButton.Location = new System.Drawing.Point(373, 11);
             this.exitButton.Margin = new System.Windows.Forms.Padding(2);
             this.exitButton.Name = "exitButton";
+            this.exitButton.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
             this.exitButton.Size = new System.Drawing.Size(23, 23);
             this.exitButton.TabIndex = 4;
             this.exitButton.Text = "X";
+            this.exitButton.TextButtonColor = System.Drawing.Color.White;
             this.exitButton.UseVisualStyleBackColor = false;
             this.exitButton.Click += new System.EventHandler(this.CloseWindow);
             // 
@@ -129,7 +136,7 @@ namespace Prestarter
         private System.Windows.Forms.Label logoLabel;
         private System.Windows.Forms.Label statusLabel;
         private System.Windows.Forms.PictureBox logoPictureBox;
-        private System.Windows.Forms.Button exitButton;
+        private CircularButton exitButton;
     }
 }
 

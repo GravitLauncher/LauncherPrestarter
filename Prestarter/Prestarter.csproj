@@ -63,6 +63,7 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Controls\CircularButton.cs" />
         <Compile Include="Controls\CustomProgressBar.cs" />
         <Compile Include="Downloaders\CompositeDownloader.cs" />
         <Compile Include="Downloaders\OpenJFXDownloader.cs" />

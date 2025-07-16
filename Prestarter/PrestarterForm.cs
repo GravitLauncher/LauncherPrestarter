@@ -146,6 +146,10 @@ namespace Prestarter
             ForeColor = ColorHelper.FromHex(Config.ForegroundColorHex);
             mainProgressBar.ProgressBarColor = ColorHelper.FromHex(Config.PrimaryColorHex);
             mainProgressBar.BackColor = BackColor;
+
+            // Настройка кнопки закрытия
+            exitButton.NormalColor = ColorHelper.FromHex(Config.ButtonColorHex);
+            exitButton.HoverColor = ColorHelper.FromHex(Config.ButtonHoverColorHex);
             
             new Thread(() =>
             {

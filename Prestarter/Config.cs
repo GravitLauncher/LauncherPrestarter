@@ -42,9 +42,26 @@ namespace Prestarter
         ///     Наименование диалога
         /// </summary>
         public static string DialogName => $"{Project} Prestarter";
-
+        
+        /// <summary>
+        /// Основной цвет
+        /// </summary>
         public static readonly string PrimaryColorHex = "#6C70F1";
+        /// <summary>
+        /// Цвето фона
+        /// </summary>
         public static readonly string BackgroundColorHex = "#1A1A1A";
+        /// <summary>
+        /// Цвет текста
+        /// </summary>
         public static readonly string ForegroundColorHex = "#969696";
+        /// <summary>
+        /// Цвет Кнопки
+        /// </summary>
+        public static readonly string ButtonColorHex = "#202020";
+        /// <summary>
+        /// Цвет Кнопки при наведении
+        /// </summary>
+        public static readonly string ButtonHoverColorHex = "#2E2E2E";
     }
 }
