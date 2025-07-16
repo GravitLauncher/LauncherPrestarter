@@ -32,11 +32,12 @@ namespace Prestarter
                 switch (javaStatus)
                 {
                     case SystemHelper.JavaStatus.NeedUpdate when CheckNeedJavaUpdate() == false:
-                    case SystemHelper.JavaStatus.NotInstalled when CheckNeedDownloadDialog():
+                    case SystemHelper.JavaStatus.NotInstalled when CheckNeedDownloadDialog() == false:
                     case SystemHelper.JavaStatus.Ok:
                         return;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        Console.WriteLine(javaStatus);
+                        break;
                 }
             }
 
@@ -55,9 +56,9 @@ namespace Prestarter
                 Config.JavaDownloader.GetName()
             );
                     
-            var dialog = MessageBox.Show(message, Config.DialogName, MessageBoxButtons.OKCancel);
-            if (dialog != DialogResult.OK) return true;
-            return false;
+            var result = MessageBox.Show(message, Config.DialogName, MessageBoxButtons.YesNo);
+
+            return result == DialogResult.Yes;
         }
 
         private static bool CheckNeedJavaUpdate()
@@ -81,11 +82,12 @@ namespace Prestarter
             VerifyAndDownloadJava(basePath);
 
             _reporter.SetStatus(I18n.SearchingForLauncherStatus);
+            
             var launcherPath = Path.Combine(basePath, "Launcher.jar");
 
             if (Config.LauncherDownloadUrl == null)
             {
-                launcherPath = Assembly.GetEntryAssembly().Location;
+                launcherPath = Assembly.GetEntryAssembly()?.Location;
             }
             else if (!File.Exists(launcherPath))
             {

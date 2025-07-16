@@ -90,7 +90,7 @@ namespace Prestarter
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, $"{Config.Project} Prestarter", MessageBoxButtons.OK,
+                    MessageBox.Show(e.Message, Config.DialogName, MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                 }
 

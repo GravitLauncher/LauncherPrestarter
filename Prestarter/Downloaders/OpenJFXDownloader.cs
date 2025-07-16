@@ -42,7 +42,7 @@ namespace Prestarter.Downloaders
             var url = Environment.Is64BitOperatingSystem ? x64Url : x86Url;
             var checksum = Environment.Is64BitOperatingSystem ? x64Checksum : x86Checksum;
             var name = GetName();
-            var zipPath = Path.Combine(javaPath, "openjfx.zip");
+            var zipPath = Path.Combine(Path.GetTempPath(), "openjfx.zip");
             reporter.SetStatus(string.Format(I18n.DownloadingStatus, name));
             reporter.SetProgress(0);
             reporter.SetProgressBarState(ProgressBarState.Progress);

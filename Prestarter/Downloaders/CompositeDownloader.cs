@@ -13,7 +13,8 @@ namespace Prestarter.Downloaders
 
         public void Download(string javaPath, IUIReporter reporter)
         {
-            foreach (var downloader in downloaders) downloader.Download(javaPath, reporter);
+            foreach (var downloader in downloaders) 
+                downloader.Download(javaPath, reporter);
         }
 
         public string GetDirectoryPrefix()
