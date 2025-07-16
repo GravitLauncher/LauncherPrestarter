@@ -41,17 +41,14 @@ namespace Prestarter.Helpers
             return basePath;
         }
 
-        public static JavaStatus GetJavaStatus(string javaPath)
+        public static JavaStatus GetJavaStatus(string lastUpdateDateFile)
         {
             try
             {
-                var path = Path.Combine(javaPath, "date-updated");
-
-                
-                if (!File.Exists(path)) 
+                if (!File.Exists(lastUpdateDateFile)) 
                     return JavaStatus.NotInstalled;
                 
-                var text = File.ReadAllText(path);
+                var text = File.ReadAllText(lastUpdateDateFile);
                 
                 var parsed = DateTime.Parse(text);
                 

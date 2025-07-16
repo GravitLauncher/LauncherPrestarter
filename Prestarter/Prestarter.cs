@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -22,35 +23,20 @@ namespace Prestarter
 
         private void VerifyAndDownloadJava(string javaPath)
         {
-            var javaStatus = SystemHelper.GetJavaStatus(javaPath);
-
-            if (javaStatus == SystemHelper.JavaStatus.Ok)
-                return;
+            var lastUpdateDateFile = Path.Combine(javaPath, "date-updated");
+            
+            var javaStatus = SystemHelper.GetJavaStatus(lastUpdateDateFile);
 
             if (Config.DownloadQuestionEnabled)
             {
-                if (javaStatus == SystemHelper.JavaStatus.NeedUpdate)
+                switch (javaStatus)
                 {
-                    var dialog = MessageBox.Show(
-                        I18n.JavaUpdateAvailableMessage,
-                        Config.DialogName,
-                        MessageBoxButtons.YesNoCancel
-                    );
-
-                    if (dialog == DialogResult.No) return;
-
-                    if (dialog == DialogResult.Cancel) return;
-                }
-                else
-                {
-                    var message = string.Format(
-                        I18n.ForLauncherStartupSoftwareIsRequiredMessage,
-                        Config.Project,
-                        Config.JavaDownloader.GetName()
-                    );
-                    
-                    var dialog = MessageBox.Show(message, Config.DialogName, MessageBoxButtons.OKCancel);
-                    if (dialog != DialogResult.OK) return;
+                    case SystemHelper.JavaStatus.NeedUpdate when CheckNeedJavaUpdate() == false:
+                    case SystemHelper.JavaStatus.NotInstalled when CheckNeedDownloadDialog():
+                    case SystemHelper.JavaStatus.Ok:
+                        return;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
 
@@ -58,7 +44,31 @@ namespace Prestarter
             
             Config.JavaDownloader.Download(javaPath, _reporter);
 
-            // File.WriteAllText(dateFilePath, DateTime.Now.ToString());
+            File.WriteAllText(lastUpdateDateFile, DateTime.Now.ToString(CultureInfo.InvariantCulture));
+        }
+
+        private static bool CheckNeedDownloadDialog()
+        {
+            var message = string.Format(
+                I18n.ForLauncherStartupSoftwareIsRequiredMessage,
+                Config.Project,
+                Config.JavaDownloader.GetName()
+            );
+                    
+            var dialog = MessageBox.Show(message, Config.DialogName, MessageBoxButtons.OKCancel);
+            if (dialog != DialogResult.OK) return true;
+            return false;
+        }
+
+        private static bool CheckNeedJavaUpdate()
+        {
+            var result = MessageBox.Show(
+                I18n.JavaUpdateAvailableMessage,
+                Config.DialogName,
+                MessageBoxButtons.YesNoCancel
+            );
+            
+            return result == DialogResult.Yes;
         }
 
         public void Run()
