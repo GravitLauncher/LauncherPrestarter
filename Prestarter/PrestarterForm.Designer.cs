@@ -44,7 +44,7 @@ namespace Prestarter
             this.mainProgressBar.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.mainProgressBar.BorderRadius = 6;
             this.mainProgressBar.ForeColor = System.Drawing.SystemColors.InactiveBorder;
-            this.mainProgressBar.Location = new System.Drawing.Point(11, 96);
+            this.mainProgressBar.Location = new System.Drawing.Point(11, 93);
             this.mainProgressBar.Margin = new System.Windows.Forms.Padding(2);
             this.mainProgressBar.Name = "mainProgressBar";
             this.mainProgressBar.ProgressBarColor = System.Drawing.Color.Green;
@@ -69,9 +69,9 @@ namespace Prestarter
             this.statusLabel.Location = new System.Drawing.Point(100, 64);
             this.statusLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(82, 13);
+            this.statusLabel.Size = new System.Drawing.Size(90, 13);
             this.statusLabel.TabIndex = 2;
-            this.statusLabel.Text = "уыкпуыкпуыкп";
+            this.statusLabel.Text = "Статус загрузки";
             // 
             // logoPictureBox
             // 

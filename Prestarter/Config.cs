@@ -25,7 +25,7 @@ namespace Prestarter
         /// <summary>
         ///     Показывать ли диалог перед скачиванием Java
         /// </summary>
-        public static readonly bool DownloadQuestionEnabled = false;
+        public static readonly bool DownloadQuestionEnabled = true;
 
         /// <summary>
         ///     Использовать общую Java для всех лаунчеров

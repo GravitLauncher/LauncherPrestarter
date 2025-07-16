@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Prestarter.Helpers;
@@ -11,12 +13,69 @@ namespace Prestarter
         private Point dragCursorPoint;
         private Point dragFormPoint;
         private bool dragging;
+        private int borderRadius = 20;
+
+        // Импорт необходимых WinAPI функций
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn
+        (
+            int nLeftRect,
+            int nTopRect,
+            int nRightRect,
+            int nBottomRect,
+            int nWidthEllipse,
+            int nHeightEllipse
+        );
+
+        [DllImport("dwmapi.dll")]
+        private static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS pMarInset);
+
+        [DllImport("dwmapi.dll")]
+        private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
+
+        [DllImport("dwmapi.dll")]
+        private static extern int DwmIsCompositionEnabled(ref int pfEnabled);
+
+        // Структура для определения полей окна
+        private struct MARGINS
+        {
+            public int leftWidth;
+            public int rightWidth;
+            public int topHeight;
+            public int bottomHeight;
+        }
 
         public PrestarterForm()
         {
             InitializeComponent();
             WindowState = FormWindowState.Minimized;
             ShowInTaskbar = false;
+
+            // Создаем закругленную форму при загрузке
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, this.Width, this.Height, borderRadius, borderRadius));
+
+            // Для обеспечения тени и корректного обновления региона при изменении размера
+            this.Resize += new EventHandler(Form_Resize);
+        }
+
+        private void Form_Resize(object sender, EventArgs e)
+        {
+            // Обновляем регион при изменении размера
+            this.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, this.Width, this.Height, borderRadius, borderRadius));
+        }
+
+        // Переопределение CreateParams для создания тени
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                const int CS_DROPSHADOW = 0x20000;
+
+                CreateParams cp = base.CreateParams;
+                cp.ClassStyle |= CS_DROPSHADOW; // Добавляем тень
+                return cp;
+            }
         }
 
         public void SetProgressBarState(ProgressBarState state)
