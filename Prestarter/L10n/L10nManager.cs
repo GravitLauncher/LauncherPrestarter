@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Prestarter.Helpers
 {
-
     internal class L10nManager
     {
-        private static ILocale defaultLocale = new EnUsLocale();
+        private static readonly ILocale DefaultLocale = new EnUsLocale();
 
-        private static readonly Dictionary<string, ILocale> locales = new Dictionary<string, ILocale>
+        private static readonly Dictionary<string, ILocale> Locales = new Dictionary<string, ILocale>
         {
             { "be", new BeLocale() },
             { "es", new EsLocale() },
@@ -25,29 +20,17 @@ namespace Prestarter.Helpers
             { "uk", new UkLocale() }
         };
 
-        public static ILocale Locale
-        {
-            get
-            {
-                if (bestLocale == null)
-                {
-                    bestLocale = GetBestLocale();
-                }
-                return bestLocale;
-            }
-        }
+        private static ILocale _bestLocale;
 
-        private static ILocale bestLocale;
+        public static ILocale Locale => _bestLocale ?? (_bestLocale = GetBestLocale());
 
         private static ILocale GetBestLocale()
         {
             var languageName = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            if (locales.ContainsKey(languageName))
-            {
-                return locales[languageName];
-            }
 
-            return defaultLocale;
+            return Locales.TryGetValue(languageName, out var locale)
+                ? locale
+                : DefaultLocale;
         }
     }
 }

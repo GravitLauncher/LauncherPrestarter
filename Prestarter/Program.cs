@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace Prestarter
 {
@@ -21,6 +19,7 @@ namespace Prestarter
     internal static class Program
     {
         public static string[] Arguments;
+
         private static void Main(string[] args)
         {
             Arguments = args;

@@ -9,6 +9,12 @@ namespace Prestarter.Helpers
         private readonly Stream baseStream;
         private readonly HashAlgorithm hashAlgorithm;
 
+        public HashProxyStream(Stream baseStream, HashAlgorithm hashAlgorithm)
+        {
+            this.baseStream = baseStream;
+            this.hashAlgorithm = hashAlgorithm;
+        }
+
         public override bool CanRead => false;
 
         public override bool CanSeek => false;
@@ -17,12 +23,10 @@ namespace Prestarter.Helpers
 
         public override long Length => throw new InvalidOperationException();
 
-        public override long Position { get => throw new InvalidOperationException(); set => throw new InvalidOperationException(); }
-
-        public HashProxyStream(Stream baseStream, HashAlgorithm hashAlgorithm) 
+        public override long Position
         {
-            this.baseStream = baseStream;
-            this.hashAlgorithm = hashAlgorithm;
+            get => throw new InvalidOperationException();
+            set => throw new InvalidOperationException();
         }
 
         public override void Flush()
@@ -30,11 +34,20 @@ namespace Prestarter.Helpers
             baseStream.Flush();
         }
 
-        public override int Read(byte[] buffer, int offset, int count) => throw new InvalidOperationException();
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            throw new InvalidOperationException();
+        }
 
-        public override long Seek(long offset, SeekOrigin origin) => throw new InvalidOperationException();
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            throw new InvalidOperationException();
+        }
 
-        public override void SetLength(long value) => throw new InvalidOperationException();
+        public override void SetLength(long value)
+        {
+            throw new InvalidOperationException();
+        }
 
         public override void Write(byte[] buffer, int offset, int count)
         {

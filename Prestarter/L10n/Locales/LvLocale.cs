@@ -3,7 +3,9 @@
     internal class LvLocale : ILocale
     {
         public string JavaUpdateAvailableMessage => @"Pieejama Java atjauninājums. Vai atjaunināt?";
-        public string ForLauncherStartupSoftwareIsRequiredMessage => @"Launcherim {0} nepieciešama Java programmatūra. Vai lejupielādēt {1}?";
+
+        public string ForLauncherStartupSoftwareIsRequiredMessage =>
+            @"Launcherim {0} nepieciešama Java programmatūra. Vai lejupielādēt {1}?";
 
 
         public string InitializationStatus => @"Inicializācija";

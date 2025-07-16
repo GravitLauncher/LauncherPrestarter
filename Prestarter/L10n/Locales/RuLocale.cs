@@ -3,7 +3,9 @@
     internal class RuLocale : ILocale
     {
         public string JavaUpdateAvailableMessage => @"Доступно обновление Java. Обновить?";
-        public string ForLauncherStartupSoftwareIsRequiredMessage => @"Для запуска лаунчера {0} необходимо программное обеспечение Java. Скачать {1}?";
+
+        public string ForLauncherStartupSoftwareIsRequiredMessage =>
+            @"Для запуска лаунчера {0} необходимо программное обеспечение Java. Скачать {1}?";
 
 
         public string InitializationStatus => @"Инициализация";

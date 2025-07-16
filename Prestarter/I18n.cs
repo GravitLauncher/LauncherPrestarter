@@ -1,19 +1,13 @@
 ﻿using Prestarter.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Resources;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Prestarter
 {
     internal static class I18n
     {
         public static string JavaUpdateAvailableMessage => L10nManager.Locale.JavaUpdateAvailableMessage;
-        public static string ForLauncherStartupSoftwareIsRequiredMessage => L10nManager.Locale.ForLauncherStartupSoftwareIsRequiredMessage;
+
+        public static string ForLauncherStartupSoftwareIsRequiredMessage =>
+            L10nManager.Locale.ForLauncherStartupSoftwareIsRequiredMessage;
 
 
         public static string InitializationStatus => L10nManager.Locale.InitializationStatus;

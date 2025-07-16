@@ -3,7 +3,9 @@
     internal class PlLocale : ILocale
     {
         public string JavaUpdateAvailableMessage => @"Dostępna aktualizacja Java. Zaktualizować?";
-        public string ForLauncherStartupSoftwareIsRequiredMessage => @"Do uruchomienia launchera {0} wymagane jest oprogramowanie Java. Pobrać {1}?";
+
+        public string ForLauncherStartupSoftwareIsRequiredMessage =>
+            @"Do uruchomienia launchera {0} wymagane jest oprogramowanie Java. Pobrać {1}?";
 
 
         public string InitializationStatus => @"Inicjalizacja";
