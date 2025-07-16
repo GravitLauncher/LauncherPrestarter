@@ -70,6 +70,7 @@
         <Compile Include="Config.cs"/>
         <Compile Include="Helpers\DownloaderHelper.cs"/>
         <Compile Include="Helpers\HashProxyStream.cs"/>
+        <Compile Include="Helpers\SystemHelper.cs" />
         <Compile Include="L10n\Locales\FrLocale.cs"/>
         <Compile Include="L10n\Locales\EsLocale.cs"/>
         <Compile Include="L10n\Locales\KkLocale.cs"/>

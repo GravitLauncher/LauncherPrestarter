@@ -37,5 +37,10 @@ namespace Prestarter
         /// </summary>
         public static readonly IRuntimeDownloader JavaDownloader =
             new CompositeDownloader(new AdoptiumJavaDownloader(), new OpenJFXDownloader(true));
+        
+        /// <summary>
+        ///     Наименование диалога
+        /// </summary>
+        public static string DialogName => $"{Project} Prestarter";
     }
 }

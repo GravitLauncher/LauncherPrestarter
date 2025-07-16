@@ -11,94 +11,66 @@ namespace Prestarter
 {
     internal class Prestarter
     {
-        public static HttpClient SharedHttpClient = new HttpClient();
+        public static readonly HttpClient SharedHttpClient = new HttpClient();
 
-        public IUIReporter reporter;
+        private readonly IUIReporter _reporter;
 
         public Prestarter(IUIReporter reporter)
         {
-            this.reporter = reporter;
+            _reporter = reporter;
         }
 
-        private static JavaStatus CheckJavaUpdateDate(string path)
+        private void VerifyAndDownloadJava(string javaPath)
         {
-            try
-            {
-                if (!File.Exists(path)) return JavaStatus.NotInstalled;
-                var text = File.ReadAllText(path);
-                var parsed = DateTime.Parse(text);
-                var now = DateTime.Now;
-                if (parsed.AddDays(30) < now) return JavaStatus.NeedUpdate;
-                return JavaStatus.Ok;
-            }
-            catch (Exception)
-            {
-                return JavaStatus.NotInstalled;
-            }
-        }
+            var javaStatus = SystemHelper.GetJavaStatus(javaPath);
 
-        private string VerifyAndDownloadJava(string basePath)
-        {
-            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            if (javaStatus == SystemHelper.JavaStatus.Ok)
+                return;
 
-            string javaPath;
-            if (Config.UseGlobalJava)
-                javaPath = Path.Combine(appData, "GravitLauncherStore", "Java",
-                    Config.JavaDownloader.GetDirectoryPrefix());
-            else
-                javaPath = Path.Combine(basePath, "jre-full");
-            
-            if (!Directory.Exists(javaPath))
-                Directory.CreateDirectory(javaPath);
-
-            var dateFilePath = Path.Combine(javaPath, "date-updated");
-            var javaStatus = CheckJavaUpdateDate(dateFilePath);
-            if (javaStatus == JavaStatus.Ok) return javaPath;
             if (Config.DownloadQuestionEnabled)
             {
-                if (javaStatus == JavaStatus.NeedUpdate)
+                if (javaStatus == SystemHelper.JavaStatus.NeedUpdate)
                 {
-                    var dialog = MessageBox.Show(I18n.JavaUpdateAvailableMessage, $"{Config.Project} Prestarter",
-                        MessageBoxButtons.YesNoCancel);
-                    if (dialog == DialogResult.No) return javaPath;
+                    var dialog = MessageBox.Show(
+                        I18n.JavaUpdateAvailableMessage,
+                        Config.DialogName,
+                        MessageBoxButtons.YesNoCancel
+                    );
 
-                    if (dialog == DialogResult.Cancel) return null;
+                    if (dialog == DialogResult.No) return;
+
+                    if (dialog == DialogResult.Cancel) return;
                 }
                 else
                 {
-                    var dialog = MessageBox.Show(
-                        string.Format(I18n.ForLauncherStartupSoftwareIsRequiredMessage, Config.Project,
-                            Config.JavaDownloader.GetName()),
-                        "Prestarter", MessageBoxButtons.OKCancel);
-                    if (dialog != DialogResult.OK) return null;
+                    var message = string.Format(
+                        I18n.ForLauncherStartupSoftwareIsRequiredMessage,
+                        Config.Project,
+                        Config.JavaDownloader.GetName()
+                    );
+                    
+                    var dialog = MessageBox.Show(message, Config.DialogName, MessageBoxButtons.OKCancel);
+                    if (dialog != DialogResult.OK) return;
                 }
             }
-            else if (javaStatus == JavaStatus.Ok)
-            {
-                return javaPath;
-            }
 
-            reporter.ShowForm();
-            Config.JavaDownloader.Download(javaPath, reporter);
+            _reporter.ShowForm();
+            
+            Config.JavaDownloader.Download(javaPath, _reporter);
 
-            File.WriteAllText(dateFilePath, DateTime.Now.ToString());
-            return javaPath;
+            // File.WriteAllText(dateFilePath, DateTime.Now.ToString());
         }
 
         public void Run()
         {
-            reporter.SetStatus(I18n.InitializationStatus);
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            _reporter.SetStatus(I18n.InitializationStatus);
 
-            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var basePath = SystemHelper.InitializeBasePath();
+            var javaPath = SystemHelper.InitializeJavaPath(basePath);
 
-            var basePath = Path.Combine(appData, Config.Project);
-            Directory.CreateDirectory(basePath);
+            VerifyAndDownloadJava(basePath);
 
-            var javaPath = VerifyAndDownloadJava(basePath);
-            if (javaPath == null) return;
-
-            reporter.SetStatus(I18n.SearchingForLauncherStatus);
+            _reporter.SetStatus(I18n.SearchingForLauncherStatus);
             var launcherPath = Path.Combine(basePath, "Launcher.jar");
 
             if (Config.LauncherDownloadUrl == null)
@@ -107,19 +79,19 @@ namespace Prestarter
             }
             else if (!File.Exists(launcherPath))
             {
-                reporter.ShowForm();
-                reporter.SetStatus(I18n.DownloadingLauncherStatus);
-                reporter.SetProgress(0);
-                reporter.SetProgressBarState(ProgressBarState.Progress);
+                _reporter.ShowForm();
+                _reporter.SetStatus(I18n.DownloadingLauncherStatus);
+                _reporter.SetProgress(0);
+                _reporter.SetProgressBarState(ProgressBarState.Progress);
                 using (var file = new FileStream(launcherPath, FileMode.Create, FileAccess.Write, FileShare.None))
                 {
-                    SharedHttpClient.Download(Config.LauncherDownloadUrl, file, value => reporter.SetProgress(value));
+                    SharedHttpClient.Download(Config.LauncherDownloadUrl, file, value => _reporter.SetProgress(value));
                 }
 
-                reporter.SetProgressBarState(ProgressBarState.Marqee);
+                _reporter.SetProgressBarState(ProgressBarState.Marqee);
             }
 
-            reporter.SetStatus(I18n.StartingStatus);
+            _reporter.SetStatus(I18n.StartingStatus);
             var args = "";
             foreach (var e in Program.Arguments)
             {
@@ -140,13 +112,6 @@ namespace Prestarter
             };
             process.Start();
             if (process.WaitForExit(500)) throw new Exception(I18n.LauncherHasExitedTooFastError);
-        }
-
-        private enum JavaStatus
-        {
-            Ok,
-            NotInstalled,
-            NeedUpdate
         }
     }
 }

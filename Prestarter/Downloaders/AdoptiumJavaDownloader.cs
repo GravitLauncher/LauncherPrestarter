@@ -19,7 +19,7 @@ namespace Prestarter.Downloaders
         {
             var url = Environment.Is64BitOperatingSystem ? x64Url : x86Url;
             var name = GetName();
-            var zipPath = Path.Combine(javaPath, "java.zip");
+            var zipPath = Path.Combine(Path.GetTempPath(), "java.zip");
             reporter.SetStatus(string.Format(I18n.DownloadingStatus, name));
             reporter.SetProgress(0);
             reporter.SetProgressBarState(ProgressBarState.Progress);
@@ -36,7 +36,10 @@ namespace Prestarter.Downloaders
             }
 
             reporter.SetStatus(string.Format(I18n.UnpackingStatus, name));
-            Directory.CreateDirectory(javaPath);
+
+            if (!Directory.Exists(javaPath))
+                Directory.CreateDirectory(javaPath);
+            
             DownloaderHelper.UnpackZip(zipPath, javaPath, true);
             File.Delete(zipPath);
         }

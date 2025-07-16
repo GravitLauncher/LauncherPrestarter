@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace Prestarter.Helpers
 {
@@ -10,13 +11,22 @@ namespace Prestarter.Helpers
         {
             using (var archive = ZipFile.OpenRead(zipPath))
             {
+                string rootFolder = null;
+                if (skipFirstDirectory)
+                {
+                    var firstEntry = archive.Entries.FirstOrDefault();
+                    if (firstEntry != null)
+                    {
+                        rootFolder = firstEntry.FullName.Split('/')[0] + "/";
+                    }
+                }
+
                 foreach (var entry in archive.Entries)
                 {
                     string fileName;
-                    if (skipFirstDirectory)
+                    if (skipFirstDirectory && !string.IsNullOrEmpty(rootFolder) && entry.FullName.StartsWith(rootFolder))
                     {
-                        var index = entry.FullName.IndexOf("/", StringComparison.InvariantCultureIgnoreCase);
-                        fileName = entry.FullName.Substring(index + 1);
+                        fileName = entry.FullName.Substring(rootFolder.Length);
                     }
                     else
                     {
@@ -24,12 +34,15 @@ namespace Prestarter.Helpers
                     }
 
                     fileName = fileName.Replace('/', '\\');
-                    if (fileName == "") continue;
+                    if (string.IsNullOrEmpty(fileName)) continue;
                     var path = Path.Combine(targetPath, fileName);
                     if (entry.FullName.EndsWith("/"))
                         Directory.CreateDirectory(path);
                     else
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(path));
                         entry.ExtractToFile(path, true);
+                    }
                 }
             }
         }
