@@ -4,12 +4,22 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "install-deps-linux",
+      "label": "install-deps",
       "type": "shell",
       "command": "if [ ! -d 'node_modules' ]; then yarn; fi",
+      "windows": {
+        "command": "if not exist node_modules yarn",
+        "options": {
+          "shell": {
+            "executable": "cmd.exe",
+            "args": ["/d", "/c"]
+          }
+        }
+      },
       "options": {
         "shell": {
-          "executable": "bash"
+          "executable": "bash",
+          "args": ["-c"]
         }
       },
       "runOptions": {
@@ -18,26 +28,33 @@
       "problemMatcher": [],
       "group": {
         "kind": "build",
-        "isDefault": true
+        "isDefault": false
       }
     },
     {
-      "label": "install-deps-windows",
+      "label": "Run Tauri Dev",
       "type": "shell",
-      "command": "if not exist node_modules yarn",
-      "options": {
-        "shell": {
-          "executable": "cmd.exe",
-          "args": ["/d", "/c"]
-        }
-      },
-      "runOptions": {
-        "runOn": "folderOpen"
-      },
-      "problemMatcher": [],
+      "command": "yarn run tauri dev",
       "group": {
         "kind": "build",
         "isDefault": true
+      },
+      "presentation": {
+        "focus": true,
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run Tauri Build",
+      "type": "shell",
+      "command": "yarn run tauri build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "focus": true,
+        "panel": "dedicated"
       }
     },
     {
