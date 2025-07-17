@@ -4,6 +4,43 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "install-deps-linux",
+      "type": "shell",
+      "command": "if [ ! -d 'node_modules' ]; then yarn; fi",
+      "options": {
+        "shell": {
+          "executable": "bash"
+        }
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "install-deps-windows",
+      "type": "shell",
+      "command": "if not exist node_modules yarn",
+      "options": {
+        "shell": {
+          "executable": "cmd.exe",
+          "args": ["/d", "/c"]
+        }
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
       "label": "ui:dev",
       "type": "shell",
       // `dev` keeps running in the background
