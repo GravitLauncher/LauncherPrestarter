@@ -25,7 +25,7 @@ namespace Prestarter.Downloaders
         // private const string x86ChechsumUrl = "https://download2.gluonhq.com/openjfx/17.0.8/openjfx-17.0.8_windows-x86_bin-sdk.zip.sha256";
         private const string x86Checksum = "c3a56d545f2614465664b66cb4c178ddd7fe37d4ec7b53d2248a2d80f4a04ed7";
 
-        private const string x64Name = "OpenJFX 21 (x86_64)";
+        private const string x64Name = "OpenJFX 23 (x86_64)";
         private const string x86Name = "OpenJFX 17 (x86)";
 
         private readonly string x64Url;
@@ -42,7 +42,7 @@ namespace Prestarter.Downloaders
             var url = Environment.Is64BitOperatingSystem ? x64Url : x86Url;
             var checksum = Environment.Is64BitOperatingSystem ? x64Checksum : x86Checksum;
             var name = GetName();
-            var zipPath = Path.Combine(Path.GetTempPath(), "openjfx.zip");
+            var zipPath = Path.Combine(javaPath, "openjfx.zip");
             reporter.SetStatus(string.Format(I18n.DownloadingStatus, name));
             reporter.SetProgress(0);
             reporter.SetProgressBarState(ProgressBarState.Progress);

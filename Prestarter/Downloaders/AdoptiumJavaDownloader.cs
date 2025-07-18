@@ -19,7 +19,7 @@ namespace Prestarter.Downloaders
         {
             var url = Environment.Is64BitOperatingSystem ? x64Url : x86Url;
             var name = GetName();
-            var zipPath = Path.Combine(Path.GetTempPath(), "java.zip");
+            var zipPath = Path.Combine(javaPath, "java.zip");
             reporter.SetStatus(string.Format(I18n.DownloadingStatus, name));
             reporter.SetProgress(0);
             reporter.SetProgressBarState(ProgressBarState.Progress);

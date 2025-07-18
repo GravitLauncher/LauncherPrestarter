@@ -17,15 +17,12 @@ namespace Prestarter
 
         private readonly IUIReporter _reporter;
 
-        public PrestarterCore(IUIReporter reporter)
-        {
-            _reporter = reporter;
-        }
+        public PrestarterCore(IUIReporter reporter) => _reporter = reporter;
 
-        private void VerifyAndDownloadJava(string javaPath)
+        private void VerifyAndDownloadJava()
         {
-            var lastUpdateDateFile = Path.Combine(javaPath, "date-updated");
-            
+            var lastUpdateDateFile = Path.Combine(SystemHelper.JavaPath, "date-updated");
+
             var javaStatus = SystemHelper.GetJavaStatus(lastUpdateDateFile);
 
             if (Config.DownloadQuestionEnabled)
@@ -43,8 +40,8 @@ namespace Prestarter
             }
 
             _reporter.ShowForm();
-            
-            Config.JavaDownloader.Download(javaPath, _reporter);
+
+            Config.JavaDownloader.Download(SystemHelper.JavaPath, _reporter);
 
             File.WriteAllText(lastUpdateDateFile, DateTime.Now.ToString(CultureInfo.InvariantCulture));
         }
@@ -56,7 +53,7 @@ namespace Prestarter
                 Config.Project,
                 Config.JavaDownloader.GetName()
             );
-                    
+
             var result = MessageBox.Show(message, Config.DialogName, MessageBoxButtons.YesNo);
 
             return result == DialogResult.Yes;
@@ -69,7 +66,7 @@ namespace Prestarter
                 Config.DialogName,
                 MessageBoxButtons.YesNoCancel
             );
-            
+
             return result == DialogResult.Yes;
         }
 
@@ -77,31 +74,27 @@ namespace Prestarter
         {
             _reporter.SetStatus(I18n.InitializationStatus);
 
-            var basePath = SystemHelper.InitializeBasePath();
-            var javaPath = SystemHelper.InitializeJavaPath(basePath);
-
-            VerifyAndDownloadJava(basePath);
+            VerifyAndDownloadJava();
 
             _reporter.SetStatus(I18n.SearchingForLauncherStatus);
-            
-            var launcherPath = SystemHelper.GetLauncherPath(basePath);
 
-            if (SystemHelper.NeedDownloadLauncher(launcherPath))
+
+            if (SystemHelper.NeedDownloadLauncher)
             {
-                DownloadLauncher(launcherPath);
+                DownloadLauncher();
             }
 
             _reporter.SetStatus(I18n.StartingStatus);
-            
-            var process = GetProcess(basePath, launcherPath);
+
+            var process = GetProcess();
 
             process.Start();
-            
-            if (process.WaitForExit(500)) 
+
+            if (process.WaitForExit(500))
                 throw new Exception(I18n.LauncherHasExitedTooFastError);
         }
 
-        private static Process GetProcess(string javaPath, string launcherPath)
+        private static Process GetProcess()
         {
             var additionalArguments = string.Join(" ", Program.Arguments.Select(e => $"\"{e}\""));
 
@@ -109,23 +102,23 @@ namespace Prestarter
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = Path.Combine(javaPath, "bin", "java.exe"),
-                    Arguments = $"-Dlauncher.noJavaCheck=true -jar \"{launcherPath}\" {additionalArguments}",
+                    FileName = Path.Combine(SystemHelper.JavaPath, "bin", "java.exe"),
+                    Arguments = $"-Dlauncher.noJavaCheck=true -jar \"{SystemHelper.LauncherPath}\" {additionalArguments}",
                     UseShellExecute = false,
                     CreateNoWindow = true
                 }
             };
-            
+
             return process;
         }
 
-        private void DownloadLauncher(string launcherPath)
+        private void DownloadLauncher()
         {
             _reporter.ShowForm();
             _reporter.SetStatus(I18n.DownloadingLauncherStatus);
             _reporter.SetProgress(0);
             _reporter.SetProgressBarState(ProgressBarState.Progress);
-            using (var file = new FileStream(launcherPath, FileMode.Create, FileAccess.Write, FileShare.None))
+            using (var file = new FileStream(SystemHelper.LauncherPath, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 SharedHttpClient.Download(Config.LauncherDownloadUrl, file, value => _reporter.SetProgress(value));
             }

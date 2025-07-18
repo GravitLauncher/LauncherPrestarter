@@ -31,7 +31,7 @@ namespace Prestarter
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PrestarterForm));
-            this.mainProgressBar = new CustomProgressBar();
+            this.mainProgressBar = new Prestarter.Controls.CustomProgressBar();
             this.logoLabel = new System.Windows.Forms.Label();
             this.statusLabel = new System.Windows.Forms.Label();
             this.logoPictureBox = new System.Windows.Forms.PictureBox();
@@ -116,7 +116,7 @@ namespace Prestarter
             this.Controls.Add(this.logoLabel);
             this.Controls.Add(this.mainProgressBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::Prestarter.Properties.Resources.AppIcon;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "PrestarterForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

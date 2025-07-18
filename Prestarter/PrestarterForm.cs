@@ -48,6 +48,8 @@ namespace Prestarter
         public PrestarterForm()
         {
             InitializeComponent();
+            this.logoLabel.Text = Config.Project;
+            this.Text = $"{Config.Project} Prestarter";
             WindowState = FormWindowState.Minimized;
             ShowInTaskbar = false;
 
