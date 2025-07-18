@@ -84,7 +84,7 @@ namespace Prestarter
 
             _reporter.SetStatus(I18n.SearchingForLauncherStatus);
             
-            var launcherPath = Path.Combine(basePath, "Launcher.jar");
+            var launcherPath = SystemHelper.GetLauncherPath(basePath);
 
             if (SystemHelper.NeedDownloadLauncher(launcherPath))
             {
@@ -93,7 +93,7 @@ namespace Prestarter
 
             _reporter.SetStatus(I18n.StartingStatus);
             
-            var process = GetProcess(javaPath, launcherPath);
+            var process = GetProcess(basePath, launcherPath);
 
             process.Start();
             

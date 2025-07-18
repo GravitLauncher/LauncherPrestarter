@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 
 namespace Prestarter.Helpers
 {
@@ -65,6 +66,16 @@ namespace Prestarter.Helpers
         public static bool NeedDownloadLauncher(string launcherPath)
         {
             return Config.LauncherDownloadUrl != null && !File.Exists(launcherPath);
+        }
+
+        public static string GetLauncherPath(string basePath)
+        {
+            if (Config.LauncherDownloadUrl != null)
+            {
+                return Path.Combine(basePath, "Launcher.jar");
+            }
+            
+            return Assembly.GetExecutingAssembly().Location;
         }
     }
 }
