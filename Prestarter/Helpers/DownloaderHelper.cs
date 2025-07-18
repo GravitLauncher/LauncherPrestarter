@@ -1,45 +1,47 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO.Compression;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Prestarter.Helpers
 {
-    internal class DownloaderHelper
+    internal abstract class DownloaderHelper
     {
-        public static void UnpackZip(string zipPath, string targetPath, bool skipFirstDitrctory)
+        public static void UnpackZip(string zipPath, string targetPath, bool skipFirstDirectory)
         {
-            using (ZipArchive archive = ZipFile.OpenRead(zipPath))
+            using (var archive = ZipFile.OpenRead(zipPath))
             {
-                foreach (ZipArchiveEntry entry in archive.Entries)
+                string rootFolder = null;
+                if (skipFirstDirectory)
+                {
+                    var firstEntry = archive.Entries.FirstOrDefault();
+                    if (firstEntry != null)
+                    {
+                        rootFolder = firstEntry.FullName.Split('/')[0] + "/";
+                    }
+                }
+
+                foreach (var entry in archive.Entries)
                 {
                     string fileName;
-                    if (skipFirstDitrctory)
+                    if (skipFirstDirectory && !string.IsNullOrEmpty(rootFolder) && entry.FullName.StartsWith(rootFolder))
                     {
-                        int index = entry.FullName.IndexOf("/");
-                        fileName = entry.FullName.Substring(index + 1);
+                        fileName = entry.FullName.Substring(rootFolder.Length);
                     }
                     else
                     {
                         fileName = entry.FullName;
                     }
+
                     fileName = fileName.Replace('/', '\\');
-                    if (fileName == "")
-                    {
-                        continue;
-                    }
-                    string path = Path.Combine(targetPath, fileName);
+                    if (string.IsNullOrEmpty(fileName)) continue;
+                    var path = Path.Combine(targetPath, fileName);
                     if (entry.FullName.EndsWith("/"))
-                    {
                         Directory.CreateDirectory(path);
-                    }
                     else
                     {
-                        entry.ExtractToFile(path, overwrite: true);
+                        Directory.CreateDirectory(Path.GetDirectoryName(path));
+                        entry.ExtractToFile(path, true);
                     }
                 }
             }

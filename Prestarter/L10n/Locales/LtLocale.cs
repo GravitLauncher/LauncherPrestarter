@@ -3,7 +3,9 @@
     internal class LtLocale : ILocale
     {
         public string JavaUpdateAvailableMessage => @"Prieinama Java atnaujinimas. Atnaujinti?";
-        public string ForLauncherStartupSoftwareIsRequiredMessage => @"Paleidimui reikalinga Java programinė įranga. Parsisiųsti {0}?";
+
+        public string ForLauncherStartupSoftwareIsRequiredMessage =>
+            @"Paleidimui reikalinga Java programinė įranga. Parsisiųsti {0}?";
 
 
         public string InitializationStatus => @"Inicijavimas";

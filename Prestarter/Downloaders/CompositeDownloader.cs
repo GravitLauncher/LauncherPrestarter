@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace Prestarter.Downloaders
 {
@@ -17,10 +13,8 @@ namespace Prestarter.Downloaders
 
         public void Download(string javaPath, IUIReporter reporter)
         {
-            foreach (var downloader in downloaders)
-            {
+            foreach (var downloader in downloaders) 
                 downloader.Download(javaPath, reporter);
-            }
         }
 
         public string GetDirectoryPrefix()

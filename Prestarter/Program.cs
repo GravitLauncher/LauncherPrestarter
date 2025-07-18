@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Net;
 using System.Windows.Forms;
 
 namespace Prestarter
@@ -21,9 +20,11 @@ namespace Prestarter
     internal static class Program
     {
         public static string[] Arguments;
+
         private static void Main(string[] args)
         {
             Arguments = args;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new PrestarterForm());

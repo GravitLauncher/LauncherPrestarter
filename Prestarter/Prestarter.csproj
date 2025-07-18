@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -47,6 +47,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Win32Resource>
+    </Win32Resource>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -63,13 +70,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CircularButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\CustomProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Downloaders\CompositeDownloader.cs" />
     <Compile Include="Downloaders\OpenJFXDownloader.cs" />
     <Compile Include="Downloaders\AdoptiumJavaDownloader.cs" />
     <Compile Include="Downloaders\BellsoftJavaDownloader.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Helpers\DownloaderHelper.cs" />
     <Compile Include="Helpers\HashProxyStream.cs" />
+    <Compile Include="Helpers\SystemHelper.cs" />
     <Compile Include="L10n\Locales\FrLocale.cs" />
     <Compile Include="L10n\Locales\EsLocale.cs" />
     <Compile Include="L10n\Locales\KkLocale.cs" />
@@ -92,11 +107,12 @@
     </Compile>
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Downloaders\IRuntimeDownloader.cs" />
-    <Compile Include="Prestarter.cs" />
+    <Compile Include="PrestarterCore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="PrestarterForm.resx">
       <DependentUpon>PrestarterForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -128,6 +144,8 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="favicon.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,7 +3,9 @@
     internal class EsLocale : ILocale
     {
         public string JavaUpdateAvailableMessage => @"Actualización de Java disponible. ¿Actualizar?";
-        public string ForLauncherStartupSoftwareIsRequiredMessage => @"Para iniciar el lanzador {0} se requiere el software Java. ¿Descargar {1}?";
+
+        public string ForLauncherStartupSoftwareIsRequiredMessage =>
+            @"Para iniciar el lanzador {0} se requiere el software Java. ¿Descargar {1}?";
 
 
         public string InitializationStatus => @"Inicialización";

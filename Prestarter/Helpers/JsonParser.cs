@@ -34,15 +34,15 @@ namespace Prestarter.Helpers
 {
     public class ParserException : Exception
     {
-        public int Line { get; private set; }
-        public int Column { get; private set; }
-
         public ParserException(string msg, int line, int col)
             : base(msg)
         {
             Line = line;
             Column = col;
         }
+
+        public int Line { get; private set; }
+        public int Column { get; private set; }
     }
 
     public interface ILogger
@@ -52,12 +52,12 @@ namespace Prestarter.Helpers
 
     public class TextWriterLogger : ILogger
     {
-        public TextWriter Writer { get; set; }
-
         public TextWriterLogger(TextWriter writer)
         {
             Writer = writer;
         }
+
+        public TextWriter Writer { get; set; }
 
         public void WriteLine(string message, params object[] arguments)
         {
@@ -69,37 +69,37 @@ namespace Prestarter.Helpers
     }
 
     /// <summary>
-    /// Parses JSON into POCOs.
+    ///     Parses JSON into POCOs.
     /// </summary>
     public class JsonParser
     {
-        string Input { get; set; }
-        int InputLength { get; set; }
-        int Pos { get; set; }
-        int Line { get; set; }
-        int Col { get; set; }
+        private string Input { get; set; }
+        private int InputLength { get; set; }
+        private int Pos { get; set; }
+        private int Line { get; set; }
+        private int Col { get; set; }
 
         /// <summary>
-        /// Gets or sets the logger.
+        ///     Gets or sets the logger.
         /// </summary>
         /// <value>
-        /// The logger.
+        ///     The logger.
         /// </value>
         public ILogger Logger { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to collect line info during parsing.
+        ///     Gets or sets a value indicating whether to collect line info during parsing.
         /// </summary>
         /// <value>
-        /// <c>true</c> if line info should be collected during parsing; otherwise, <c>false</c>.
+        ///     <c>true</c> if line info should be collected during parsing; otherwise, <c>false</c>.
         /// </value>
         public bool CollectLineInfo { get; set; }
 
         /// <summary>
-        /// Parse the specified JSON text.
+        ///     Parse the specified JSON text.
         /// </summary>
         /// <param name='text'>
-        /// The JSON text to parse.
+        ///     The JSON text to parse.
         /// </param>
         public object Parse(string text)
         {
@@ -124,29 +124,23 @@ namespace Prestarter.Helpers
 
         private void WriteLineLog(string msg, params object[] args)
         {
-            if (Logger != null)
-            {
-                Logger.WriteLine(msg, args);
-            }
+            if (Logger != null) Logger.WriteLine(msg, args);
         }
 
         private ParserException BuildParserException(string msg)
         {
             if (CollectLineInfo)
-            {
-                return new ParserException(string.Format(CultureInfo.InvariantCulture, "Parse error: {0} at line {1}, column {2}.", msg, Line, Col), Line, Col);
-            }
-            else
-            {
-                return new ParserException("Parse error: " + msg + ".", 0, 0);
-            }
+                return new ParserException(
+                    string.Format(CultureInfo.InvariantCulture, "Parse error: {0} at line {1}, column {2}.", msg, Line,
+                        Col), Line, Col);
+
+            return new ParserException("Parse error: " + msg + ".", 0, 0);
         }
 
         private void AdvanceInput(int n)
         {
             if (CollectLineInfo)
-            {
-                for (int i = Pos; i < Pos + n; i++)
+                for (var i = Pos; i < Pos + n; i++)
                 {
                     var c = Input[i];
 
@@ -160,7 +154,6 @@ namespace Prestarter.Helpers
                         Col++;
                     }
                 }
-            }
 
             Pos += n;
         }
@@ -169,10 +162,7 @@ namespace Prestarter.Helpers
         {
             var len = s.Length;
 
-            if (Pos + len > InputLength)
-            {
-                return null;
-            }
+            if (Pos + len > InputLength) return null;
 
             if (Input.IndexOf(s, Pos, len, StringComparison.Ordinal) != -1)
             {
@@ -186,10 +176,7 @@ namespace Prestarter.Helpers
 
         private char Expect(char c)
         {
-            if (Pos >= InputLength || Input[Pos] != c)
-            {
-                throw BuildParserException("expected '" + c + "'");
-            }
+            if (Pos >= InputLength || Input[Pos] != c) throw BuildParserException("expected '" + c + "'");
 
             AdvanceInput(1);
 
@@ -200,10 +187,7 @@ namespace Prestarter.Helpers
         {
             SkipWhitespace();
 
-            if (Pos >= InputLength)
-            {
-                throw BuildParserException("input contains no value");
-            }
+            if (Pos >= InputLength) throw BuildParserException("input contains no value");
 
             var nextChar = Input[Pos];
 
@@ -212,30 +196,28 @@ namespace Prestarter.Helpers
                 AdvanceInput(1);
                 return String();
             }
-            else if (nextChar == '[')
+
+            if (nextChar == '[')
             {
                 AdvanceInput(1);
                 return List();
             }
-            else if (nextChar == '{')
+
+            if (nextChar == '{')
             {
                 AdvanceInput(1);
                 return Dictionary();
             }
-            else if (char.IsDigit(nextChar) || nextChar == '-')
-            {
-                return Number();
-            }
-            else
-            {
-                return Literal();
-            }
+
+            if (char.IsDigit(nextChar) || nextChar == '-') return Number();
+
+            return Literal();
         }
 
         private object Number()
         {
-            int currentPos = Pos;
-            bool dotSeen = false;
+            var currentPos = Pos;
+            var dotSeen = false;
 
             Accept(c => c == '-', ref currentPos);
             ExpectDigits(ref currentPos);
@@ -246,9 +228,9 @@ namespace Prestarter.Helpers
                 ExpectDigits(ref currentPos);
             }
 
-            if (Accept(c => (c == 'e' || c == 'E'), ref currentPos))
+            if (Accept(c => c == 'e' || c == 'E', ref currentPos))
             {
-                Accept(c => (c == '-' || c == '+'), ref currentPos);
+                Accept(c => c == '-' || c == '+', ref currentPos);
                 ExpectDigits(ref currentPos);
             }
 
@@ -258,47 +240,47 @@ namespace Prestarter.Helpers
             if (dotSeen)
             {
                 decimal d;
-                if (decimal.TryParse(num, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent, CultureInfo.InvariantCulture, out d))
+                if (decimal.TryParse(num,
+                        NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent,
+                        CultureInfo.InvariantCulture, out d))
                 {
                     WriteLineLog("decimal: {0}", d);
                     AdvanceInput(len);
                     return d;
                 }
-                else
-                {
-                    double dbl;
-                    if (double.TryParse(num, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent, CultureInfo.InvariantCulture, out dbl))
-                    {
-                        WriteLineLog("double: {0}", dbl);
-                        AdvanceInput(len);
-                        return dbl;
-                    }
 
-                    throw BuildParserException("cannot parse decimal number");
-                }
-            }
-            else
-            {
-                int i;
-                if (int.TryParse(num, NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent, CultureInfo.InvariantCulture, out i))
+                double dbl;
+                if (double.TryParse(num,
+                        NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent,
+                        CultureInfo.InvariantCulture, out dbl))
                 {
-                    WriteLineLog("int: {0}", i);
+                    WriteLineLog("double: {0}", dbl);
                     AdvanceInput(len);
-                    return i;
+                    return dbl;
                 }
-                else
-                {
-                    long l;
-                    if (long.TryParse(num, NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent, CultureInfo.InvariantCulture, out l))
-                    {
-                        WriteLineLog("long: {0}", l);
-                        AdvanceInput(len);
-                        return l;
-                    }
 
-                    throw BuildParserException("cannot parse integer number");
-                }
+                throw BuildParserException("cannot parse decimal number");
             }
+
+            int i;
+            if (int.TryParse(num, NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent,
+                    CultureInfo.InvariantCulture, out i))
+            {
+                WriteLineLog("int: {0}", i);
+                AdvanceInput(len);
+                return i;
+            }
+
+            long l;
+            if (long.TryParse(num, NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent,
+                    CultureInfo.InvariantCulture, out l))
+            {
+                WriteLineLog("long: {0}", l);
+                AdvanceInput(len);
+                return l;
+            }
+
+            throw BuildParserException("cannot parse integer number");
         }
 
         private bool Accept(Predicate<char> predicate, ref int pos)
@@ -314,22 +296,19 @@ namespace Prestarter.Helpers
 
         private void ExpectDigits(ref int pos)
         {
-            int start = pos;
+            var start = pos;
             while (pos < InputLength && char.IsDigit(Input[pos])) pos++;
             if (start == pos) throw BuildParserException("not a number");
         }
 
         private string String()
         {
-            int currentPos = Pos;
-            StringBuilder sb = new StringBuilder();
+            var currentPos = Pos;
+            var sb = new StringBuilder();
 
             while (true)
             {
-                if (currentPos >= InputLength)
-                {
-                    throw BuildParserException("unterminated string");
-                }
+                if (currentPos >= InputLength) throw BuildParserException("unterminated string");
 
                 var c = Input[currentPos];
 
@@ -340,14 +319,12 @@ namespace Prestarter.Helpers
                     WriteLineLog("string: {0}", sb);
                     return sb.ToString();
                 }
-                else if (c == '\\')
+
+                if (c == '\\')
                 {
                     currentPos++;
 
-                    if (currentPos >= InputLength)
-                    {
-                        throw BuildParserException("unterminated escape sequence string");
-                    }
+                    if (currentPos >= InputLength) throw BuildParserException("unterminated escape sequence string");
 
                     c = Input[currentPos];
 
@@ -377,19 +354,17 @@ namespace Prestarter.Helpers
                             currentPos += 4;
                             if (currentPos >= InputLength)
                                 throw BuildParserException("unterminated unicode escape in string");
-                            else
-                            {
-                                int u;
-                                if (!int.TryParse(Input.Substring(currentPos - 3, 4), NumberStyles.AllowHexSpecifier, NumberFormatInfo.InvariantInfo, out u))
-                                    throw BuildParserException("not a well-formed unicode escape sequence in string");
-                                sb.Append((char)u);
-                            }
+                            int u;
+                            if (!int.TryParse(Input.Substring(currentPos - 3, 4), NumberStyles.AllowHexSpecifier,
+                                    NumberFormatInfo.InvariantInfo, out u))
+                                throw BuildParserException("not a well-formed unicode escape sequence in string");
+                            sb.Append((char)u);
                             break;
                         default:
                             throw BuildParserException("unknown escape sequence in string");
                     }
                 }
-                else if ((int)c < 0x20)
+                else if (c < 0x20)
                 {
                     throw BuildParserException("control character in string");
                 }
@@ -429,12 +404,13 @@ namespace Prestarter.Helpers
         {
             WriteLineLog("list: [");
 
-            List<object> list = new List<object>();
+            var list = new List<object>();
 
             SkipWhitespace();
             if (IsNext(']'))
             {
-                AdvanceInput(1); return list;
+                AdvanceInput(1);
+                return list;
             }
 
             object obj = null;
@@ -449,8 +425,7 @@ namespace Prestarter.Helpers
                     if (IsNext(']')) break;
                     Expect(',');
                 }
-            }
-            while (obj != null);
+            } while (obj != null);
 
             Expect(']');
 
@@ -463,12 +438,13 @@ namespace Prestarter.Helpers
         {
             WriteLineLog("Dictionary: {");
 
-            Dictionary<string, object> dict = new Dictionary<string, object>();
+            var dict = new Dictionary<string, object>();
 
             SkipWhitespace();
             if (IsNext('}'))
             {
-                AdvanceInput(1); return dict;
+                AdvanceInput(1);
+                return dict;
             }
 
             KeyValuePair<string, object>? kvp = null;
@@ -478,16 +454,12 @@ namespace Prestarter.Helpers
 
                 kvp = KeyValuePair();
 
-                if (kvp.HasValue)
-                {
-                    dict[kvp.Value.Key] = kvp.Value.Value;
-                }
+                if (kvp.HasValue) dict[kvp.Value.Key] = kvp.Value.Value;
 
                 SkipWhitespace();
                 if (IsNext('}')) break;
                 Expect(',');
-            }
-            while (kvp != null);
+            } while (kvp != null);
 
             Expect('}');
 
@@ -513,18 +485,15 @@ namespace Prestarter.Helpers
 
         private void SkipWhitespace()
         {
-            int n = Pos;
+            var n = Pos;
             while (IsWhiteSpace(n)) n++;
-            if (n != Pos)
-            {
-                AdvanceInput(n - Pos);
-            }
+            if (n != Pos) AdvanceInput(n - Pos);
         }
 
         private bool IsWhiteSpace(int n)
         {
             if (n >= InputLength) return false;
-            char c = Input[n];
+            var c = Input[n];
             return c == ' ' || c == '\t' || c == '\r' || c == '\n';
         }
 

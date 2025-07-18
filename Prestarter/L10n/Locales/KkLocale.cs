@@ -3,7 +3,9 @@
     internal class KkLocale : ILocale
     {
         public string JavaUpdateAvailableMessage => @"Java жаңарту қол жетімді. Жаңарту?";
-        public string ForLauncherStartupSoftwareIsRequiredMessage => @"{0} лаунчерін іске қосу үшін Java бағдарламасы қажет. {1} жүктеп алу керек пе?";
+
+        public string ForLauncherStartupSoftwareIsRequiredMessage =>
+            @"{0} лаунчерін іске қосу үшін Java бағдарламасы қажет. {1} жүктеп алу керек пе?";
 
 
         public string InitializationStatus => @"Іске қосу";

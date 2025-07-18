@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 # IDEA (Java)
 Prestarter_module/.idea
+/.idea/*.*

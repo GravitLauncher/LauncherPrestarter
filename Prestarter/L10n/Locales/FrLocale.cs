@@ -3,7 +3,9 @@
     internal class FrLocale : ILocale
     {
         public string JavaUpdateAvailableMessage => @"Mise à jour Java disponible. Mettre à jour?";
-        public string ForLauncherStartupSoftwareIsRequiredMessage => @"Pour démarrer le lanceur {0}, le logiciel Java est requis. Télécharger {1}?";
+
+        public string ForLauncherStartupSoftwareIsRequiredMessage =>
+            @"Pour démarrer le lanceur {0}, le logiciel Java est requis. Télécharger {1}?";
 
 
         public string InitializationStatus => @"Initialisation";
