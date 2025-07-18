@@ -2,8 +2,11 @@
   import "reset-css";
   import "$lib/css/global.css";
   import logo from "$lib/images/logo.svg";
+  import close from "$lib/images/close.svg";
+  import minimize from "$lib/images/minimize.svg";
   import { invoke } from "@tauri-apps/api/core";
   import { listen, type EventCallback } from "@tauri-apps/api/event";
+  import { getCurrentWindow } from '@tauri-apps/api/window';
   import ProgressBar from "$lib/ProgressBar.svelte";
 
   let downloadProgress = 0;
@@ -20,6 +23,7 @@
   // A buffer to store the last few speed samples for smoothing
   const speedSamples: number[] = [];
   const MAX_SAMPLES = 30; // adjust for more/less smoothing
+  const appWindow = getCurrentWindow();
 
   async function startDownload() {
     error = "";
@@ -69,6 +73,7 @@
     downloadProgress = current;
     downloadTotal = event.payload.total;
     totalLabel = (downloadTotal / 1000 / 1000).toFixed(0) + " MB";
+    console.log(totalLabel);
     updateSpeed(current);
   });
 
@@ -99,7 +104,17 @@
     startDownload();
   }, 300);
 </script>
-
+<div class="titlebar">
+  <div data-tauri-drag-region></div>
+  <div class="controls">
+    <button id="titlebar-maximize" title="maximize" on:click={appWindow.minimize}>
+      <img alt="minimize" src={minimize} />
+    </button>
+    <button id="titlebar-close" title="close" on:click={close_application}>
+      <img alt="close" src={close} />
+    </button>
+  </div>
+</div>
 <div class="layout">
   <div class="logo-container">
     <img class="logo" alt="logo" src={logo} />
@@ -112,7 +127,7 @@
         <font class="speed">{speedMb}</font>
         <font class="speed-label">MB/S</font>
       </div>
-      <font class="total-label">{{ totalLabel }}</font>
+      <font class="total-label">{ totalLabel }</font>
     </div>
 
     <ProgressBar value={downloadProgress} total={downloadTotal} />
