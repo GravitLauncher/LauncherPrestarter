@@ -18,7 +18,7 @@ namespace Prestarter.Downloaders
             reporter.SetProgressBarState(ProgressBarState.Marqee);
             var url =
                 $"https://api.bell-sw.com/v1/liberica/releases?version-modifier=latest&bitness={bitness}&release-type=lts&os=windows&arch=x86&package-type=zip&bundle-type=jre-full";
-            var result = Prestarter.SharedHttpClient.GetAsync(url).Result;
+            var result = PrestarterCore.SharedHttpClient.GetAsync(url).Result;
             if (!result.IsSuccessStatusCode)
                 throw new Exception(string.Format(I18n.InitializationError, result.StatusCode));
 
@@ -35,7 +35,7 @@ namespace Prestarter.Downloaders
             reporter.SetProgressBarState(ProgressBarState.Progress);
             using (var file = new FileStream(zipPath, FileMode.Create, FileAccess.Write, FileShare.None))
             {
-                Prestarter.SharedHttpClient.Download(downloadUrl, file, reporter.SetProgress);
+                PrestarterCore.SharedHttpClient.Download(downloadUrl, file, reporter.SetProgress);
             }
 
             reporter.SetProgressBarState(ProgressBarState.Marqee);

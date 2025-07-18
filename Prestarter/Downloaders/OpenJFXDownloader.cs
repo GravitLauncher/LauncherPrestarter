@@ -48,7 +48,7 @@ namespace Prestarter.Downloaders
             reporter.SetProgressBarState(ProgressBarState.Progress);
             using (var file = new FileStream(zipPath, FileMode.Create, FileAccess.Write, FileShare.None))
             {
-                Prestarter.SharedHttpClient.DownloadWithHash(url, checksum, SHA256.Create(),
+                PrestarterCore.SharedHttpClient.DownloadWithHash(url, checksum, SHA256.Create(),
                     file, reporter.SetProgress);
             }
 

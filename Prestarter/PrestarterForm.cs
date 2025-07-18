@@ -153,7 +153,7 @@ namespace Prestarter
             
             new Thread(() =>
             {
-                var prestarter = new Prestarter(this);
+                var prestarter = new PrestarterCore(this);
                 try
                 {
                     prestarter.Run();

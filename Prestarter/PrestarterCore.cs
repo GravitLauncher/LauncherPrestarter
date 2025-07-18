@@ -11,13 +11,13 @@ using Prestarter.Helpers;
 
 namespace Prestarter
 {
-    internal class Prestarter
+    internal class PrestarterCore
     {
         public static readonly HttpClient SharedHttpClient = new HttpClient();
 
         private readonly IUIReporter _reporter;
 
-        public Prestarter(IUIReporter reporter)
+        public PrestarterCore(IUIReporter reporter)
         {
             _reporter = reporter;
         }

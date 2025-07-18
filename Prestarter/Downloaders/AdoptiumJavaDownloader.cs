@@ -25,7 +25,7 @@ namespace Prestarter.Downloaders
             reporter.SetProgressBarState(ProgressBarState.Progress);
             using (var file = new FileStream(zipPath, FileMode.Create, FileAccess.Write, FileShare.None))
             {
-                Prestarter.SharedHttpClient.Download(url, file, reporter.SetProgress);
+                PrestarterCore.SharedHttpClient.Download(url, file, reporter.SetProgress);
             }
 
             reporter.SetProgressBarState(ProgressBarState.Marqee);

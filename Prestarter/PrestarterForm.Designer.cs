@@ -35,7 +35,7 @@ namespace Prestarter
             this.logoLabel = new System.Windows.Forms.Label();
             this.statusLabel = new System.Windows.Forms.Label();
             this.logoPictureBox = new System.Windows.Forms.PictureBox();
-            this.exitButton = new CircularButton();
+            this.exitButton = new Prestarter.Controls.CircularButton();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,7 +44,7 @@ namespace Prestarter
             this.mainProgressBar.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.mainProgressBar.BorderRadius = 6;
             this.mainProgressBar.ForeColor = System.Drawing.SystemColors.InactiveBorder;
-            this.mainProgressBar.Location = new System.Drawing.Point(11, 93);
+            this.mainProgressBar.Location = new System.Drawing.Point(11, 97);
             this.mainProgressBar.Margin = new System.Windows.Forms.Padding(2);
             this.mainProgressBar.Name = "mainProgressBar";
             this.mainProgressBar.ProgressBarColor = System.Drawing.Color.Green;
@@ -128,6 +128,7 @@ namespace Prestarter
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
