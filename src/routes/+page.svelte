@@ -124,12 +124,15 @@
   <div class="download-block">
     <div class="speed-block">
       <div>
-        <font class="speed">{speedMb}</font>
-        <font class="speed-label">MB/S</font>
+        <div class="speed">{speedMb}</div>
+        <div class="speed-label">MB/S</div>
       </div>
       <font class="total-label">{ totalLabel }</font>
     </div>
 
-    <ProgressBar value={downloadProgress} total={downloadTotal} />
+    <ProgressBar class={error ? 'errored' : ''} value={downloadProgress} total={downloadTotal} />
+  </div>
+  <div class="error-label">
+    {error}
   </div>
 </div>

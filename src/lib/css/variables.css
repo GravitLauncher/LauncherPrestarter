@@ -6,4 +6,5 @@
     --colors-shadow: #D7D7D7EE;
     --colors-active: linear-gradient(90deg, #7248A7 10.39%, #2C03A8 64.61%);
     --colors-progressbar: linear-gradient(90deg, #8D4CE0 10.39%, #5711FA 93.28%);
+    --colors-error: #DB4D4D;
 }

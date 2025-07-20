@@ -1,8 +1,12 @@
 @import './variables.css';
 
-body {
+:root {
     background-image: url('../images/bg.svg');
     background-size: cover;
+    background-repeat: no-repeat;
+}
+
+body {
     font-family: "Open-Sans";
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -16,7 +20,6 @@ body {
     align-items: center;
     width: 100%;
     gap: 12px;
-    padding: 0px 16px;
 }
 
 .logo {
@@ -65,11 +68,13 @@ body {
     background: var(--colors-active);
     background-clip: text;
     text-shadow: none;
+    text-align: center;
 }
 
 .speed-block .speed-label {
     font-size: 10px;
     color: var(--colors-text-description);
+    text-align: center;
 }
 
 .speed-block .total-label {
@@ -82,14 +87,24 @@ body {
     background: var(--colors-base);
     border-radius: 0px 6.2px 6.2px 0px;
     box-shadow: 0px 0px 18.601px 0px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
 }
 
 .progress-bar .progress-bar-value {
     background: var(--colors-progressbar);
 }
 
+.errored .progress-bar-value {
+    background: var(--colors-error);
+}
+
 .progress-bar {
     width: 100%;
+}
+
+.error-label {
+    color: var(--colors-error);
+    text-align: center;
 }
 
 .titlebar {
