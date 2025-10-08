@@ -8,7 +8,7 @@
 git clone -b rust/5.7.x https://github.com/GravitLauncher/LauncherPrestarter.git
 ```
 
-## Подготовка окржуения (Windows)
+## Подготовка окружения (Windows)
 
 - Установите [Visual Studio](https://visualstudio.microsoft.com/) (не Vistal Studio Code) с компонентом "Разработка приложений на C++"
 - Следуйте [инструкции](https://rust-lang.org/tools/install/) и по установке окружения для разработки на Rust
