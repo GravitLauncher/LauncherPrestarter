@@ -18,7 +18,8 @@
         "decorations": false,
         "shadow": false,
         "resizable": false,
-        "transparent": true
+        "transparent": true,
+        "incognito": true
       }
     ],
     "security": {
