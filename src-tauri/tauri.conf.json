@@ -19,7 +19,8 @@
         "shadow": false,
         "resizable": false,
         "transparent": true,
-        "incognito": true
+        "incognito": true,
+        "center": true
       }
     ],
     "security": {
