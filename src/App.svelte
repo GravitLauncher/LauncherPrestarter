@@ -146,7 +146,7 @@
         justify-content: center;
         align-items: center;
         overflow: hidden;
-        background-image: "lib/assets/images/bg.svg";
+        background-image: url("lib/assets/images/bg.svg");
         font-family: "Open Sans";
     }
     .layout {
