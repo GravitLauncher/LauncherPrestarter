@@ -15,6 +15,7 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 use tauri::Emitter;
+use tauri::Manager;
 
 use crate::{
     config::{is_java_outdated, load_version_info, target_dir}, download::fetch_latest_release, extract::extract_tar_gz, runner::relaunch_using_java
@@ -104,6 +105,11 @@ fn start_download(app_handle: tauri::AppHandle) -> Result<(), String> {
             }
         }
         
+        // Remove zip
+        if let Err(e) = fs::remove_file(&zip_path) {
+            let _ = handle.emit("error", e.to_string());
+            return;
+        }
 
         // Save extracted mark
         {
@@ -190,6 +196,11 @@ pub fn run() {
     }
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .setup(|app| {
+            let window = app.get_webview_window("main").unwrap();
+            window.show().unwrap();
+            Ok(())
+        })
         .invoke_handler(tauri::generate_handler![start_download, close_app])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

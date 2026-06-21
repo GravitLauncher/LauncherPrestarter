@@ -70,7 +70,9 @@ pub fn fetch_latest_release() -> Result<JavaRelease> {
 fn fetch_latest_release_from_api() -> Result<JavaRelease> {
     let url = format!("https://api.bell-sw.com/v1/liberica/releases?version-modifier=latest&version-feature=25&bitness=64&os={}&arch={}&package-type={}&bundle-type=jre-full",
         get_platform_name(), get_arch_name(), get_package_type());
-    let resp = reqwest::blocking::get(url)?.error_for_status()?;
+    let resp = reqwest::blocking::get(&url).map_err(|e| {
+        anyhow!("Request failed for {}: {:?}", url, e)
+    })?.error_for_status()?;
     let releases: Vec<JavaRelease> = serde_json::from_reader(resp)?;
 
     releases.into_iter().next().ok_or_else(|| anyhow!("No releases found"))
@@ -88,7 +90,9 @@ pub type ProgressCallback = dyn Fn(u64, u64);
 
 /// Download the file and report progress through the callback.
 pub fn download_file(url: &str, dest: &PathBuf, total_size: u64, progress: &ProgressCallback) -> Result<()> {
-    let mut response = reqwest::blocking::get(url)?.error_for_status()?;
+    let mut response = reqwest::blocking::get(url).map_err(|e| {
+    anyhow!("Download failed for {}: {:?}", url, e)
+})?.error_for_status()?;
     let mut file = File::create(dest)?;
     let mut buffer = [0; 8192];
     let mut downloaded: u64 = 0;
