@@ -16,11 +16,13 @@ pub fn relaunch_using_java(java_dir: &PathBuf) -> Result<()> {
     let java_exe = java_executable_file(java_dir);
 
     let current_exe = env::current_exe()?;
+    let args: Vec<String> = env::args().skip(1).collect();
 
     Command::new(java_exe)
         .arg("-Dlauncher.noJavaCheck=true")
         .arg("-jar")
         .arg(current_exe)
+        .args(args)
         .spawn()?; // not waiting intentionally
 
     Ok(())
